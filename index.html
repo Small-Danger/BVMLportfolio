@@ -1,0 +1,1272 @@
+<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio 3D - BAMBARA VICTORIEN MARIE LANDRY</title>
+    <meta name="description" content="Portfolio interactif et immersif présentant mes compétences et projets">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            light: '#6366f1',
+                            dark: '#818cf8',
+                        },
+                        secondary: {
+                            light: '#10b981',
+                            dark: '#34d399',
+                        },
+                        dark: {
+                            900: '#0f172a',
+                            800: '#1e293b',
+                            700: '#334155',
+                        }
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'float-reverse': 'float-reverse 6s ease-in-out infinite',
+                        'spin-slow': 'spin 8s linear infinite',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(-20px)' },
+                        },
+                        'float-reverse': {
+                            '0%, 100%': { transform: 'translateY(0)' },
+                            '50%': { transform: 'translateY(20px)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <!-- Three.js CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- EmailJS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    
+    <style>
+        /* Custom styles */
+        html {
+            scroll-behavior: smooth;
+            scroll-snap-type: y proximity;
+        }
+        
+        section {
+            scroll-snap-align: start;
+            position: relative;
+        }
+        
+        .glass {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .dark .glass {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .neumorphism {
+            border-radius: 16px;
+            box-shadow:  8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
+        }
+        
+        .dark .neumorphism {
+            box-shadow:  8px 8px 16px #0a0e17, -8px -8px 16px #1a263d;
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+        }
+        
+        .tilt-effect {
+            transition: transform 0.3s ease;
+        }
+        
+        .tilt-effect:hover {
+            transform: rotateY(10deg) rotateX(10deg);
+        }
+        
+        .skill-bar {
+            transition: width 2s ease-in-out;
+        }
+        
+        #threejs-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+        
+        /* Animation classes */
+        .fade-in {
+            animation: fadeIn 1.5s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .delay-100 {
+            animation-delay: 100ms;
+        }
+        
+        .delay-200 {
+            animation-delay: 200ms;
+        }
+        
+        .delay-300 {
+            animation-delay: 300ms;
+        }
+        
+        .wave {
+            animation-name: wave-animation;
+            animation-duration: 2.5s;
+            animation-iteration-count: infinite;
+            transform-origin: 70% 70%;
+            display: inline-block;
+        }
+        
+        @keyframes wave-animation {
+            0% { transform: rotate(0.0deg) }
+            10% { transform: rotate(14.0deg) }
+            20% { transform: rotate(-8.0deg) }
+            30% { transform: rotate(14.0deg) }
+            40% { transform: rotate(-4.0deg) }
+            50% { transform: rotate(10.0deg) }
+            60% { transform: rotate(0.0deg) }
+            100% { transform: rotate(0.0deg) }
+        }
+        
+        /* Project showcase styles */
+        .project-showcase {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 100;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+        
+        .project-showcase.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .project-content {
+            width: 90%;
+            max-width: 1200px;
+            max-height: 90vh;
+            overflow-y: auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 1rem;
+            position: relative;
+        }
+        
+        .dark .project-content {
+            background: #1e293b;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        
+        .project-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .project-gallery img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        
+        .project-gallery img:hover {
+            transform: scale(1.05);
+        }
+        
+        .tech-badge {
+            display: inline-block;
+            padding: 0.25rem 0.5rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-dark-900 dark:text-gray-200 transition-colors duration-300">
+    <!-- Preloader -->
+    <div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-dark-900 transition-opacity duration-500">
+        <div class="relative w-32 h-32">
+            <div class="absolute inset-0 border-4 border-t-primary-light dark:border-t-primary-dark border-transparent rounded-full animate-spin-slow"></div>
+            <div class="absolute inset-4 border-4 border-b-secondary-light dark:border-b-secondary-dark border-transparent rounded-full animate-spin-slow animation-delay-1000"></div>
+            <div class="flex items-center justify-center h-full">
+                <span class="text-2xl font-bold">Chargement...</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Three.js Background -->
+    <div id="threejs-container"></div>
+
+    <!-- Dark Mode Toggle -->
+    <button id="darkModeToggle" class="fixed top-6 right-6 z-50 p-3 rounded-full glass shadow-lg">
+        <i class="fas fa-moon dark:hidden"></i>
+        <i class="fas fa-sun hidden dark:block"></i>
+    </button>
+
+    <!-- Navigation -->
+    <nav class="fixed bottom-6 md:bottom-auto md:top-6 left-1/2 transform -translate-x-1/2 z-50">
+        <div class="flex space-x-2 p-2 rounded-full glass shadow-lg">
+            <a href="#home" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors">
+                <i class="fas fa-home"></i>
+            </a>
+            <a href="#about" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors">
+                <i class="fas fa-user"></i>
+            </a>
+            <a href="#projects" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors">
+                <i class="fas fa-code"></i>
+            </a>
+            <a href="#skills" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors">
+                <i class="fas fa-cogs"></i>
+            </a>
+            <a href="#contact" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors">
+                <i class="fas fa-envelope"></i>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden">
+        <div class="container mx-auto px-6 py-20 z-10 text-center fade-in">
+            <h1 class="text-5xl md:text-7xl font-bold mb-4">
+                <span class="text-primary-light dark:text-primary-dark">Bonjour</span> 
+                <span class="wave">👋</span>,<br>
+                Je suis <span class="text-secondary-light dark:text-secondary-dark">BAMBARA VICTORIEN MARIE LANDRY</span>
+            </h1>
+            <h2 class="text-2xl md:text-3xl mb-8 glass inline-block px-6 py-2 rounded-full">
+                Développeur Full-Stack & Designer UI/UX
+            </h2>
+            <div class="flex flex-wrap justify-center gap-4 mt-10">
+                <a href="#projects" class="px-8 py-3 bg-primary-light dark:bg-primary-dark text-white rounded-full font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+                    Voir mes projets
+                </a>
+                <a href="cv.pdf" class="px-8 py-3 glass rounded-full font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+                    Télécharger mon CV
+                </a>
+                <a href="#contact" class="px-8 py-3 glass rounded-full font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+                    Me contacter
+                </a>
+            </div>
+        </div>
+        
+        
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <a href="#about" class="text-2xl">
+                <i class="fas fa-chevron-down"></i>
+            </a>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="min-h-screen py-20 flex items-center relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-16 text-center fade-in">
+                À <span class="text-primary-light dark:text-primary-dark">propos</span> de moi
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="glass p-8 rounded-3xl fade-in delay-100">
+                    <h3 class="text-2xl font-semibold mb-4">Qui suis-je ?</h3>
+                    <p class="mb-6">
+                        Étudiant en 3ème année à HESTIM et passionné par le développement web et le design graphique, je combine créativité et expertise technique pour créer des expériences digitales mémorables.
+                    </p>
+                    <p class="mb-6">
+                        Fort d'une formation en classe préparatoire à Polytechnique de Casablanca et d'une solide expérience en design graphique, je maîtrise à la fois le développement web et les outils de création visuelle.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mt-6">
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Laravel</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">PHP</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">React</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Three.js</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Photoshop</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Illustrator</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Canva</span>
+                    </div>
+                </div>
+                
+                <div class="relative fade-in delay-200">
+                    <div class="glass p-8 rounded-3xl">
+                        <h3 class="text-2xl font-semibold mb-6">Mon parcours</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex">
+                                <div class="flex flex-col items-center mr-4">
+                                    <div class="w-4 h-4 bg-secondary-light dark:bg-secondary-dark rounded-full mt-1"></div>
+                                    <div class="w-px h-full bg-gray-300 dark:bg-gray-600"></div>
+                                </div>
+                                <div class="pb-8">
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">2023 - Présent</p>
+                                    <h4 class="font-semibold mb-2">3ème année en Développement Web</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">HESTIM, Casablanca</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex">
+                                <div class="flex flex-col items-center mr-4">
+                                    <div class="w-4 h-4 bg-secondary-light dark:bg-secondary-dark rounded-full mt-1"></div>
+                                    <div class="w-px h-full bg-gray-300 dark:bg-gray-600"></div>
+                                </div>
+                                <div class="pb-8">
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">2021 - 2023</p>
+                                    <h4 class="font-semibold mb-2">Classe Préparatoire</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">Polytechnique de Casablanca</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex">
+                                <div class="flex flex-col items-center mr-4">
+                                    <div class="w-4 h-4 bg-secondary-light dark:bg-secondary-dark rounded-full mt-1"></div>
+                                </div>
+                                <div>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">2021</p>
+                                    <h4 class="font-semibold mb-2">Baccalauréat Scientifique</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">Option Sciences Mathématiques</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="absolute -top-10 -right-10 w-24 h-24 bg-primary-light dark:bg-primary-dark rounded-full opacity-20 animate-float"></div>
+                    <div class="absolute -bottom-10 -left-10 w-20 h-20 bg-secondary-light dark:bg-secondary-dark rounded-full opacity-20 animate-float-reverse"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="min-h-screen py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-16 text-center fade-in">
+                Mes <span class="text-primary-light dark:text-primary-dark">projets</span>
+            </h2>
+            
+            <div class="flex justify-center mb-12 fade-in delay-100">
+                <div class="inline-flex rounded-full glass p-1">
+                    <button class="filter-btn px-4 py-2 rounded-full active bg-primary-light dark:bg-primary-dark text-white" data-filter="all">Tous</button>
+                    <button class="filter-btn px-4 py-2 rounded-full" data-filter="web">Web</button>
+                    <button class="filter-btn px-4 py-2 rounded-full" data-filter="mobile">Mobile</button>
+                    <button class="filter-btn px-4 py-2 rounded-full" data-filter="design">Design</button>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Project 1 -->
+                <div class="project-card tilt-effect glass rounded-2xl overflow-hidden fade-in delay-100" data-category="web" data-project="1">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="dashboard.png" alt="Dashboard E-commerce" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <h3 class="text-xl font-semibold text-white">Dashboard E-commerce</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Plateforme e-commerce complète avec panier, paiement et dashboard admin.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Laravel</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">PHP</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MySQL</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="1">
+                                <i class="fas fa-eye mr-1"></i> Voir plus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 2 -->
+                <div class="project-card tilt-effect glass rounded-2xl overflow-hidden fade-in delay-200" data-category="web" data-project="2">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="ecomTest.png" alt="E-commerce" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <h3 class="text-xl font-semibold text-white">E-commerce</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Application Web e-commerce avec panier, paiement et dashboard admin.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Laravel</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">PHP</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MySQL</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Project 3 -->
+                <div class="project-card tilt-effect glass rounded-2xl overflow-hidden fade-in delay-300" data-category="web" data-project="3">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="comparateurTicket.png" alt="Comparateur de prix" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <h3 class="text-xl font-semibold text-white">Comparateur de prix de billets de Bus</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Application Web permettant de comparer les prix des billets de bus entre différentes compagnies. Ce projet a été développé pour simplifier le processus de recherche et de réservation des billets de bus, en offrant une comparaison en temps réel des prix et des horaires.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Laravel</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">PHP</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MySQL</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">JavaScript</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">API Integration</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="3">
+                                <i class="fas fa-eye mr-1"></i> Voir plus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 - Gestion d'Entreprise -->
+                <div class="project-card tilt-effect glass rounded-2xl overflow-hidden fade-in delay-400" data-category="web" data-project="4">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="dashboard.png" alt="Gestion d'Entreprise" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <h3 class="text-xl font-semibold text-white">Système de Gestion d'Entreprise</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">Application complète de gestion financière et de stock pour entreprises. Cette plateforme offre une solution tout-en-un pour la gestion des finances, l'inventaire et le suivi des opérations commerciales. Développée avec les technologies modernes, elle assure une expérience utilisateur fluide et une gestion efficace des données.</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Laravel</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">PHP</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MySQL</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">JavaScript</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Material-UI</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="4">
+                                <i class="fas fa-eye mr-1"></i> Voir plus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 5 - Gestion d'Étudiants -->
+                <div class="project-card tilt-effect glass rounded-2xl overflow-hidden fade-in delay-500" data-category="web" data-project="5">
+                    <div class="relative overflow-hidden h-48">
+                        <img src="dashboard1.png" alt="Gestion d'Étudiants" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <h3 class="text-xl font-semibold text-white">Plateforme pour BS INTERNATIONAL</h3>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <p class="text-gray-600 dark:text-gray-300 mb-4">plateforme pour permettre a l'entreprise BS international de montrer ses services et d'avoir un site web pour leurs clients</p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">HTML</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">CSS</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Tailwind CSS</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">JavaScript</span>
+                        </div>
+                        <div class="flex space-x-3">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="5">
+                                <i class="fas fa-eye mr-1"></i> Voir plus
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Project Showcase Modal -->
+    <div class="project-showcase" id="projectShowcase">
+        <div class="project-content glass">
+            <span class="close-btn text-gray-500 hover:text-gray-700 dark:hover:text-gray-300">&times;</span>
+            <div id="projectDetails">
+                <!-- Content will be loaded dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Skills Section -->
+    <section id="skills" class="min-h-screen py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-16 text-center fade-in">
+                Mes <span class="text-primary-light dark:text-primary-dark">compétences</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <div class="fade-in delay-100">
+                    <h3 class="text-2xl font-semibold mb-6">Technologies principales</h3>
+                    
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Laravel / PHP</span>
+                                <span>85%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                <div class="skill-bar bg-primary-light dark:bg-primary-dark h-2.5 rounded-full" style="width: 85%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">React / Next.js</span>
+                                <span>80%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                <div class="skill-bar bg-primary-light dark:bg-primary-dark h-2.5 rounded-full" style="width: 80%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Node.js / Express</span>
+                                <span>75%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                <div class="skill-bar bg-primary-light dark:bg-primary-dark h-2.5 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Flutter / Dart</span>
+                                <span>70%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
+                                <div class="skill-bar bg-primary-light dark:bg-primary-dark h-2.5 rounded-full" style="width: 70%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in delay-200">
+                    <h3 class="text-2xl font-semibold mb-6">Design & Création</h3>
+                    
+                    <div class="grid grid-cols-3 gap-4">
+                        <div class="flex flex-col items-center glass p-4 rounded-xl">
+                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                                <i class="fab fa-adobe"></i>
+                            </div>
+                            <span class="text-sm text-center">Photoshop</span>
+                        </div>
+                        
+                        <div class="flex flex-col items-center glass p-4 rounded-xl">
+                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                                <i class="fab fa-adobe"></i>
+                            </div>
+                            <span class="text-sm text-center">Illustrator</span>
+                        </div>
+                        
+                        <div class="flex flex-col items-center glass p-4 rounded-xl">
+                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                                <i class="fas fa-palette"></i>
+                            </div>
+                            <span class="text-sm text-center">Canva</span>
+                        </div>
+                        
+                        <div class="flex flex-col items-center glass p-4 rounded-xl">
+                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                                <i class="fas fa-pencil-ruler"></i>
+                            </div>
+                            <span class="text-sm text-center">Design UI/UX</span>
+                        </div>
+                        
+                        <div class="flex flex-col items-center glass p-4 rounded-xl">
+                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                                <i class="fas fa-paint-brush"></i>
+                            </div>
+                            <span class="text-sm text-center">Graphisme</span>
+                        </div>
+                        
+                        <div class="flex flex-col items-center glass p-4 rounded-xl">
+                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                                <i class="fas fa-image"></i>
+                            </div>
+                            <span class="text-sm text-center">Retouche Photo</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="mt-16 fade-in delay-300">
+                <h3 class="text-2xl font-semibold mb-6 text-center">Technologies que j'utilise</h3>
+                
+                <div class="flex flex-wrap justify-center gap-6">
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-react" style="color: #61DAFB;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-js" style="color: #F7DF1E;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-node-js" style="color: #339933;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-html5" style="color: #E34F26;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-css3-alt" style="color: #1572B6;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-git-alt" style="color: #F05032;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-docker" style="color: #2496ED;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-python" style="color: #3776AB;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-laravel" style="color: #FF2D20;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-php" style="color: #777BB4;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-wordpress" style="color: #21759B;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-bootstrap" style="color: #563D7C;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-java" style="color: #007396;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-csharp" style="color: #239120;"></i>
+                    </div>
+                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                        <i class="fab fa-mysql" style="color: #4479A1;"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="min-h-screen py-20 flex items-center relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-16 text-center fade-in">
+                Me <span class="text-primary-light dark:text-primary-dark">contacter</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                <div class="fade-in delay-100">
+                    <div class="glass p-8 rounded-3xl">
+                        <h3 class="text-2xl font-semibold mb-6">Envoyez-moi un message</h3>
+                        
+                        <form id="contactForm" class="space-y-6">
+                            <div>
+                                <label for="name" class="block mb-2 text-sm font-medium">Votre nom</label>
+                                <input type="text" id="name" name="name" class="w-full px-4 py-3 bg-white/50 dark:bg-dark-700/50 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent" required>
+                            </div>
+                            
+                            <div>
+                                <label for="email" class="block mb-2 text-sm font-medium">Votre email</label>
+                                <input type="email" id="email" name="email" class="w-full px-4 py-3 bg-white/50 dark:bg-dark-700/50 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent" required>
+                            </div>
+                            
+                            <div>
+                                <label for="subject" class="block mb-2 text-sm font-medium">Sujet</label>
+                                <input type="text" id="subject" name="subject" class="w-full px-4 py-3 bg-white/50 dark:bg-dark-700/50 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent" required>
+                            </div>
+                            
+                            <div>
+                                <label for="message" class="block mb-2 text-sm font-medium">Votre message</label>
+                                <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 bg-white/50 dark:bg-dark-700/50 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent" required></textarea>
+                            </div>
+                            
+                            <button type="submit" class="w-full px-6 py-3 bg-primary-light dark:bg-primary-dark text-white font-medium rounded-lg hover:bg-opacity-90 transition-colors">
+                                Envoyer le message
+                            </button>
+                        </form>
+                        
+                        <div id="formSuccess" class="hidden mt-6 p-4 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg">
+                            Votre message a été envoyé avec succès ! Je vous répondrai dès que possible.
+                        </div>
+                        
+                        <div id="formError" class="hidden mt-6 p-4 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-lg">
+                            Une erreur s'est produite lors de l'envoi du message. Veuillez réessayer.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in delay-200">
+                    <div class="glass p-8 rounded-3xl h-full">
+                        <h3 class="text-2xl font-semibold mb-6">Coordonnées</h3>
+                        
+                        <div class="space-y-6">
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full flex items-center justify-center text-primary-light dark:text-primary-dark mr-4 mt-1">
+                                    <i class="fas fa-map-marker-alt"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Localisation</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">Casablanca, Maroc</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full flex items-center justify-center text-primary-light dark:text-primary-dark mr-4 mt-1">
+                                    <i class="fas fa-envelope"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Email</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">landrybambara04@gmail.com</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start">
+                                <div class="flex-shrink-0 w-10 h-10 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full flex items-center justify-center text-primary-light dark:text-primary-dark mr-4 mt-1">
+                                    <i class="fas fa-phone-alt"></i>
+                                </div>
+                                <div>
+                                    <h4 class="font-medium">Téléphone</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">+212 6 25 52 28 43</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <h3 class="text-2xl font-semibold mt-12 mb-6">Réseaux sociaux</h3>
+                        
+                        <div class="flex space-x-4">
+                            <a href="#" class="social-icon w-12 h-12 rounded-full glass flex items-center justify-center text-xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                                <i class="fab fa-linkedin-in"></i>
+                            </a>
+                            <a href="#" class="social-icon w-12 h-12 rounded-full glass flex items-center justify-center text-xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            <a href="#" class="social-icon w-12 h-12 rounded-full glass flex items-center justify-center text-xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
+                                <i class="fab fa-whatsapp"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-dark-800 text-gray-300 py-12">
+        <div class="container mx-auto px-6">
+            <div class="flex flex-col md:flex-row justify-between items-center">
+                <div class="mb-6 md:mb-0">
+                    <h2 class="text-2xl font-bold text-white mb-2">BAMBARA VICTORIEN MARIE LANDRY</h2>
+                    <p class="text-gray-400">Développeur Full Stack & Designer UI/UX</p>
+                </div>
+                
+                <div class="flex flex-col items-center md:items-end">
+                    <div class="flex space-x-4 mb-4">
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                            <i class="fas fa-envelope"></i>
+                        </a>
+                    </div>
+                    
+                    <p class="text-sm text-gray-500">
+                        &copy; 2025 BAMBARA VICTORIEN MARIE LANDRY. Tous droits réservés.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Preloader
+        window.addEventListener('load', function() {
+            const preloader = document.getElementById('preloader');
+            setTimeout(() => {
+                preloader.style.opacity = '0';
+                setTimeout(() => {
+                    preloader.style.display = 'none';
+                }, 500);
+            }, 1500);
+        });
+
+        // Dark mode toggle
+        const darkModeToggle = document.getElementById('darkModeToggle');
+        darkModeToggle.addEventListener('click', function() {
+            document.documentElement.classList.toggle('dark');
+            localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+        });
+
+        // Check for saved dark mode preference
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Three.js Scene
+        function initThreeJS() {
+            const container = document.getElementById('threejs-container');
+            
+            // Scene
+            const scene = new THREE.Scene();
+            
+            // Camera
+            const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            camera.position.z = 30;
+            
+            // Renderer
+            const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setPixelRatio(window.devicePixelRatio);
+            container.appendChild(renderer.domElement);
+            
+            // Lights
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+            
+            const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+            directionalLight.position.set(1, 1, 1);
+            scene.add(directionalLight);
+            
+            // Multiple 3D Objects
+            const objects = [];
+            
+            // Main Icosahedron
+            const geometry1 = new THREE.IcosahedronGeometry(10, 0);
+            const material1 = new THREE.MeshPhongMaterial({
+                color: 0x6366f1,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.5,
+                shininess: 100
+            });
+            const mesh1 = new THREE.Mesh(geometry1, material1);
+            scene.add(mesh1);
+            objects.push(mesh1);
+            
+            // Secondary Torus
+            const geometry2 = new THREE.TorusGeometry(15, 2, 16, 100);
+            const material2 = new THREE.MeshPhongMaterial({
+                color: 0x10b981,
+                wireframe: true,
+                transparent: true,
+                opacity: 0.3,
+                shininess: 100
+            });
+            const mesh2 = new THREE.Mesh(geometry2, material2);
+            scene.add(mesh2);
+            objects.push(mesh2);
+            
+            // Floating Cubes
+            for (let i = 0; i < 20; i++) {
+                const geometry = new THREE.BoxGeometry(2, 2, 2);
+                const material = new THREE.MeshPhongMaterial({
+                    color: Math.random() * 0xffffff,
+                    wireframe: true,
+                    transparent: true,
+                    opacity: 0.2,
+                    shininess: 100
+                });
+                const cube = new THREE.Mesh(geometry, material);
+                
+                // Random position
+                cube.position.x = (Math.random() - 0.5) * 50;
+                cube.position.y = (Math.random() - 0.5) * 50;
+                cube.position.z = (Math.random() - 0.5) * 50;
+                
+                scene.add(cube);
+                objects.push(cube);
+            }
+            
+            // Mouse interaction
+            const mouse = new THREE.Vector2();
+            const raycaster = new THREE.Raycaster();
+            
+            document.addEventListener('mousemove', (event) => {
+                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
+            });
+            
+            // Animation
+            function animate() {
+                requestAnimationFrame(animate);
+                
+                // Rotate main objects
+                mesh1.rotation.x += 0.005;
+                mesh1.rotation.y += 0.01;
+                
+                mesh2.rotation.x += 0.003;
+                mesh2.rotation.y += 0.005;
+                
+                // Rotate and move cubes
+                objects.forEach((object, index) => {
+                    if (index > 1) { // Skip main objects
+                        object.rotation.x += 0.01;
+                        object.rotation.y += 0.01;
+                        
+                        // Floating animation
+                        object.position.y += Math.sin(Date.now() * 0.001 + index) * 0.01;
+                        object.position.x += Math.cos(Date.now() * 0.001 + index) * 0.01;
+                    }
+                });
+                
+                // Mouse interaction
+                raycaster.setFromCamera(mouse, camera);
+                const intersects = raycaster.intersectObjects(objects);
+                
+                objects.forEach(object => {
+                    if (intersects.length > 0 && intersects[0].object === object) {
+                        object.material.opacity = 0.8;
+                        object.scale.set(1.2, 1.2, 1.2);
+                    } else {
+                        object.material.opacity = object === mesh1 ? 0.5 : 0.2;
+                        object.scale.set(1, 1, 1);
+                    }
+                });
+                
+                renderer.render(scene, camera);
+            }
+            
+            animate();
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                camera.aspect = window.innerWidth / window.innerHeight;
+                camera.updateProjectionMatrix();
+                renderer.setSize(window.innerWidth, window.innerHeight);
+            });
+        }
+
+        // Initialize Three.js after page load
+        window.addEventListener('load', initThreeJS);
+
+        // Project filtering
+        document.querySelectorAll('.filter-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                // Remove active class from all buttons
+                document.querySelectorAll('.filter-btn').forEach(btn => {
+                    btn.classList.remove('active');
+                    btn.classList.remove('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
+                });
+                
+                // Add active class to clicked button
+                this.classList.add('active');
+                this.classList.add('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
+                
+                const filter = this.getAttribute('data-filter');
+                const projectCards = document.querySelectorAll('.project-card');
+                
+                projectCards.forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = 'block';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+
+        // Project showcase functionality
+        const projectsData = {
+            1: {
+                title: "Dashboard E-commerce",
+                description: "Plateforme e-commerce complète avec système de gestion de produits, panier d'achat, passerelle de paiement sécurisée et tableau de bord administrateur avancé. Ce projet a été développé avec Laravel pour le backend et React pour le frontend, offrant une expérience utilisateur fluide et intuitive.",
+                technologies: ["Laravel", "PHP", "MySQL", "React", "Tailwind CSS"],
+                images: ["dashboard.png", "dashboard1.png", "dashboard2.png",],
+                features: [
+                    "Gestion complète des produits avec catégories et tags",
+                    "Système de panier et de commandes en temps réel",
+                    "Passerelle de paiement intégrée (Stripe)",
+                    "Tableau de bord administrateur avec statistiques",
+                    "Système d'authentification sécurisé"
+                ],
+                demoUrl: "#",
+                githubUrl: "#"
+            },
+            2: {
+                title: "Plateforme E-commerce",
+                description: "Application Web e-commerce complète avec gestion des produits, panier, système de paiement et interface administrateur. Développée avec Laravel et MySQL, cette plateforme offre une solution complète pour les boutiques en ligne avec une interface utilisateur moderne et réactive.",
+                technologies: ["Laravel", "PHP", "MySQL", "Bootstrap", "JavaScript"],
+                images: ["ecomTest.png", "dashboard.png", "comparateurTicket.png"],
+                features: [
+                    "Catalogue produit avec filtres avancés",
+                    "Système d'évaluation et de commentaires",
+                    "Gestion des stocks en temps réel",
+                    "Interface administrateur complète",
+                    "Optimisation pour le référencement (SEO)"
+                ],
+                demoUrl: "#",
+                githubUrl: "#"
+            },
+            3: {
+                title: "Comparateur de prix de billets de Bus",
+                description: "Application Web permettant de comparer les prix des billets de bus entre différentes compagnies. Ce projet a été développé pour simplifier le processus de recherche et de réservation des billets de bus, en offrant une comparaison en temps réel des prix et des horaires.",
+                technologies: ["Laravel", "PHP", "MySQL", "JavaScript", "API Integration"],
+                images: ["comparateurTicket.png", "comparateurTicket1.png", "comparateurTicket2.png", "comparateurTicket3.png","comparateurTicket4.png","comparateurTicket5.png"],
+                features: [
+                    "Comparaison en temps réel des prix",
+                    "Interface utilisateur intuitive",
+                    "Système de filtres avancés",
+                    "Intégration avec plusieurs API de compagnies de bus",
+                    "Système de réservation intégré"
+                ],
+                demoUrl: "#",
+                githubUrl: "#"
+            },
+            4: {
+                title: "Système de Gestion d'Entreprise",
+                description: "Application complète de gestion financière et de stock pour entreprises. Cette plateforme offre une solution tout-en-un pour la gestion des finances, l'inventaire et le suivi des opérations commerciales. Développée avec les technologies modernes, elle assure une expérience utilisateur fluide et une gestion efficace des données.",
+                technologies: ["React", "Node.js", "MongoDB", "Express", "Material-UI"],
+                images: ["gestionentreprise.png", "gestionentreprise1.png", "gestionentreprise2.png"],
+                features: [
+                    "Gestion financière complète (revenus, dépenses, factures)",
+                    "Suivi des stocks en temps réel avec alertes",
+                    "Tableau de bord analytique avec graphiques",
+                    "Gestion des fournisseurs et des clients",
+                    "Rapports financiers automatisés",
+                    "Interface responsive et intuitive"
+                ],
+                demoUrl: "https://gestiondashboard.ct.ws/",
+                githubUrl: "#",
+            },
+            5: {
+                title: "Plateforme pour BS INTERNATIONAL",
+                description: "plateforme pour permettre a l'entreprise BS international de montrer ses services et d'avoir un site web pour leurs clients",
+                technologies: ["HTML", "CSS", "Tailwind CSS", "JavaScript"],
+                images: ["bsinternational.png", "bsinternational1.png", "bsinternational2.png","bsinternational3.png"],
+                features: [
+                    "montrer les services de l'entreprise",
+                    "BS INTERNATIONAL SHOLAR pour les etudiants",
+                    "BS INTERNATIONAL BUSINESS pour les entrepreneurs",
+                    "BS INTERNATIONAL EXPRESS pour l'importation et l'exportation",
+                ],
+                demoUrl: "https://bsinternational.netlify.app/home",
+                githubUrl: "#"
+            }
+        };
+
+        const projectShowcase = document.getElementById('projectShowcase');
+        const projectDetails = document.getElementById('projectDetails');
+        const closeBtn = document.querySelector('.close-btn');
+
+        document.querySelectorAll('.view-project-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                const projectId = this.getAttribute('data-project');
+                const project = projectsData[projectId];
+                
+                // Populate project details
+                projectDetails.innerHTML = `
+                    <h3 class="text-3xl font-bold mb-4">${project.title}</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-6">${project.description}</p>
+                    
+                    <div class="mb-6">
+                        <h4 class="text-xl font-semibold mb-2">Fonctionnalités clés</h4>
+                        <ul class="list-disc pl-5 space-y-2 text-gray-600 dark:text-gray-300">
+                            ${project.features.map(feat => `<li>${feat}</li>`).join('')}
+                        </ul>
+                    </div>
+                    
+                    <div class="mb-6">
+                        <h4 class="text-xl font-semibold mb-2">Technologies utilisées</h4>
+                        <div class="flex flex-wrap gap-2">
+                            ${project.technologies.map(tech => `
+                                <span class="tech-badge bg-primary-light dark:bg-primary-dark bg-opacity-20">
+                                    ${tech}
+                                </span>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="project-gallery">
+                        ${project.images.map(img => `
+                            <img src="${img}" alt="${project.title}" class="cursor-pointer">
+                        `).join('')}
+                    </div>
+                    
+                    <div class="flex space-x-4 mt-6">
+                        <a href="${project.demoUrl}" class="px-6 py-2 bg-primary-light dark:bg-primary-dark text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors">
+                            <i class="fas fa-external-link-alt mr-2"></i> Voir la démo
+                        </a>
+                        <a href="${project.githubUrl}" class="px-6 py-2 glass rounded-lg font-medium hover:bg-opacity-90 transition-colors">
+                            <i class="fab fa-github mr-2"></i> Code source
+                        </a>
+                    </div>
+                `;
+                
+                // Show the showcase
+                projectShowcase.classList.add('active');
+                
+                // Add click event to gallery images
+                document.querySelectorAll('.project-gallery img').forEach(img => {
+                    img.addEventListener('click', function() {
+                        // Create a modal for the clicked image
+                        const modal = document.createElement('div');
+                        modal.className = 'fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center';
+                        modal.innerHTML = `
+                            <div class="relative max-w-4xl w-full">
+                                <img src="${this.src}" alt="Project image" class="w-full h-auto max-h-[90vh] object-contain">
+                                <button class="absolute top-4 right-4 text-white text-3xl">&times;</button>
+                            </div>
+                        `;
+                        
+                        modal.querySelector('button').addEventListener('click', () => {
+                            modal.remove();
+                        });
+                        
+                        document.body.appendChild(modal);
+                    });
+                });
+            });
+        });
+
+        closeBtn.addEventListener('click', () => {
+            projectShowcase.classList.remove('active');
+        });
+
+        projectShowcase.addEventListener('click', (e) => {
+            if (e.target === projectShowcase) {
+                projectShowcase.classList.remove('active');
+            }
+        });
+
+        // Initialize EmailJS
+        (function() {
+            emailjs.init("5o_7eZxNqVVuPXh-D"); // Clé publique EmailJS
+        })();
+
+        // Contact form submission
+        const contactForm = document.getElementById('contactForm');
+        const formSuccess = document.getElementById('formSuccess');
+        const formError = document.getElementById('formError');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                // Récupérer les valeurs du formulaire
+                const formData = {
+                    name: document.getElementById('name').value,
+                    email: document.getElementById('email').value,
+                    subject: document.getElementById('subject').value,
+                    message: document.getElementById('message').value
+                };
+                
+                // Envoyer l'email via EmailJS
+                emailjs.send('service_qk018mt', 'template_8ubbjt9', formData)
+                    .then(function() {
+                        // Succès
+                        contactForm.reset();
+                        formSuccess.classList.remove('hidden');
+                        formError.classList.add('hidden');
+                        
+                        // Cacher le message de succès après 5 secondes
+                        setTimeout(() => {
+                            formSuccess.classList.add('hidden');
+                        }, 5000);
+                    }, function(error) {
+                        // Erreur
+                        formError.classList.remove('hidden');
+                        formSuccess.classList.add('hidden');
+                        console.error('Erreur:', error);
+                    });
+            });
+        }
+
+        // Animate skill bars on scroll
+        function animateSkillBars() {
+            const skillBars = document.querySelectorAll('.skill-bar');
+            
+            skillBars.forEach(bar => {
+                const width = bar.style.width;
+                bar.style.width = '0';
+                
+                setTimeout(() => {
+                    bar.style.width = width;
+                }, 100);
+            });
+        }
+
+        // Intersection Observer for animations
+        const observerOptions = {
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    if (entry.target.id === 'skills') {
+                        animateSkillBars();
+                    }
+                    
+                    entry.target.classList.add('animated');
+                }
+            });
+        }, observerOptions);
+
+        // Observe all sections
+        document.querySelectorAll('section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+    </script>
+</body>
+</html>
