@@ -55,124 +55,151 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     
-    <!-- EmailJS CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-    
     <style>
-        /* Custom styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
         html {
             scroll-behavior: smooth;
             scroll-snap-type: y proximity;
         }
         
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            overflow-x: hidden;
+        }
+        
         section {
             scroll-snap-align: start;
             position: relative;
+            min-height: 100vh;
         }
         
         .glass {
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
         }
         
         .dark .glass {
-            background: rgba(15, 23, 42, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
         
-        .neumorphism {
-            border-radius: 16px;
-            box-shadow:  8px 8px 16px #d1d9e6, -8px -8px 16px #ffffff;
-        }
-        
-        .dark .neumorphism {
-            box-shadow:  8px 8px 16px #0a0e17, -8px -8px 16px #1a263d;
+        .card-hover {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
         
         .card-hover:hover {
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-        }
-        
-        .tilt-effect {
-            transition: transform 0.3s ease;
-        }
-        
-        .tilt-effect:hover {
-            transform: rotateY(10deg) rotateX(10deg);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(99, 102, 241, 0.3);
         }
         
         .skill-bar {
-            transition: width 2s ease-in-out;
+            transition: width 2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .skill-bar::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            bottom: 0;
+            right: 0;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+        
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
         }
         
         #threejs-container {
-            position: absolute;
+            position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: -1;
+            z-index: -2;
+            opacity: 0.4;
         }
         
-        /* Animation classes */
         .fade-in {
-            animation: fadeIn 1.5s ease-in-out;
+            animation: fadeIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            opacity: 0;
         }
         
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from { 
+                opacity: 0; 
+                transform: translateY(30px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0);
+            }
         }
         
-        .delay-100 {
-            animation-delay: 100ms;
-        }
-        
-        .delay-200 {
-            animation-delay: 200ms;
-        }
-        
-        .delay-300 {
-            animation-delay: 300ms;
-        }
+        .delay-100 { animation-delay: 100ms; }
+        .delay-200 { animation-delay: 200ms; }
+        .delay-300 { animation-delay: 300ms; }
+        .delay-400 { animation-delay: 400ms; }
+        .delay-500 { animation-delay: 500ms; }
+        .delay-600 { animation-delay: 600ms; }
         
         .wave {
-            animation-name: wave-animation;
-            animation-duration: 2.5s;
-            animation-iteration-count: infinite;
+            animation: wave-animation 2.5s ease-in-out infinite;
             transform-origin: 70% 70%;
             display: inline-block;
         }
         
         @keyframes wave-animation {
-            0% { transform: rotate(0.0deg) }
-            10% { transform: rotate(14.0deg) }
-            20% { transform: rotate(-8.0deg) }
-            30% { transform: rotate(14.0deg) }
-            40% { transform: rotate(-4.0deg) }
-            50% { transform: rotate(10.0deg) }
-            60% { transform: rotate(0.0deg) }
-            100% { transform: rotate(0.0deg) }
+            0%, 100% { transform: rotate(0deg); }
+            10% { transform: rotate(14deg); }
+            20% { transform: rotate(-8deg); }
+            30% { transform: rotate(14deg); }
+            40% { transform: rotate(-4deg); }
+            50% { transform: rotate(10deg); }
+            60% { transform: rotate(0deg); }
         }
         
-        /* Project showcase styles */
+        .pulse-glow {
+            animation: pulse-glow 3s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% {
+                box-shadow: 0 0 20px rgba(99, 102, 241, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px rgba(99, 102, 241, 0.6);
+            }
+        }
+        
         .project-showcase {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
+            backdrop-filter: blur(10px);
             z-index: 100;
             display: flex;
             justify-content: center;
             align-items: center;
             opacity: 0;
             pointer-events: none;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
         
         .project-showcase.active {
@@ -186,55 +213,476 @@
             max-height: 90vh;
             overflow-y: auto;
             background: white;
-            padding: 2rem;
-            border-radius: 1rem;
+            padding: 2.5rem;
+            border-radius: 1.5rem;
             position: relative;
+            transform: scale(0.9);
+            transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        
+        .project-showcase.active .project-content {
+            transform: scale(1);
         }
         
         .dark .project-content {
-            background: #1e293b;
+            background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
         }
         
         .close-btn {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
-            font-size: 1.5rem;
+            top: 1.5rem;
+            right: 1.5rem;
+            font-size: 2rem;
             cursor: pointer;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            background: rgba(239, 68, 68, 0.1);
+            color: #ef4444;
+            transform: rotate(90deg);
         }
         
         .project-gallery {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 1rem;
-            margin-top: 1rem;
+            position: relative;
+            margin-top: 2rem;
         }
         
-        .project-gallery img {
+        .carousel-container {
+            position: relative;
             width: 100%;
-            height: 200px;
+            overflow: hidden;
+            border-radius: 1rem;
+            background: #000;
+        }
+        
+        .carousel-main-image {
+            width: 100%;
+            height: 500px;
+            object-fit: contain;
+            background: #000;
+        }
+        
+        .carousel-nav {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            font-size: 1.5rem;
+            color: #333;
+        }
+        
+        .dark .carousel-nav {
+            background: rgba(30, 41, 59, 0.9);
+            color: #fff;
+        }
+        
+        .carousel-nav:hover {
+            background: rgba(99, 102, 241, 0.95);
+            color: #fff;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .carousel-prev {
+            left: 1rem;
+        }
+        
+        .carousel-next {
+            right: 1rem;
+        }
+        
+        .carousel-counter {
+            position: absolute;
+            bottom: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+        
+        .carousel-thumbnails {
+            display: flex;
+            gap: 0.75rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+            padding: 0.5rem;
+            scrollbar-width: thin;
+        }
+        
+        .carousel-thumbnails::-webkit-scrollbar {
+            height: 6px;
+        }
+        
+        .carousel-thumbnails::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        
+        .carousel-thumbnails::-webkit-scrollbar-thumb {
+            background: rgba(99, 102, 241, 0.5);
+            border-radius: 10px;
+        }
+        
+        .carousel-thumbnail {
+            min-width: 100px;
+            height: 80px;
             object-fit: cover;
             border-radius: 0.5rem;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            opacity: 0.6;
+            transition: all 0.3s ease;
+            border: 3px solid transparent;
         }
         
-        .project-gallery img:hover {
+        .carousel-thumbnail:hover {
+            opacity: 0.8;
             transform: scale(1.05);
+        }
+        
+        .carousel-thumbnail.active {
+            opacity: 1;
+            border-color: #6366f1;
+            transform: scale(1.05);
+        }
+        
+        .image-zoom-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 2rem;
+        }
+        
+        .image-zoom-modal.active {
+            display: flex;
+        }
+        
+        .image-zoom-modal img {
+            max-width: 90%;
+            max-height: 90%;
+            object-fit: contain;
+            border-radius: 0.5rem;
+        }
+        
+        .image-zoom-close {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .image-zoom-close:hover {
+            background: #ef4444;
+            color: white;
+            transform: rotate(90deg);
         }
         
         .tech-badge {
             display: inline-block;
-            padding: 0.25rem 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-right: 0.75rem;
+            margin-bottom: 0.75rem;
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(16, 185, 129, 0.1));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .tech-badge:hover {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(16, 185, 129, 0.2));
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        
+        .live-badge {
+            position: absolute;
+            top: 4rem;
+            right: 1rem;
+            background: linear-gradient(135deg, #10b981, #059669);
+            color: white;
+            padding: 0.4rem 0.8rem;
             border-radius: 9999px;
             font-size: 0.75rem;
-            font-weight: 500;
-            margin-right: 0.5rem;
-            margin-bottom: 0.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            z-index: 2;
+            animation: pulse-live 2s ease-in-out infinite;
+        }
+        
+        .live-badge::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #fff;
+            border-radius: 50%;
+            animation: blink 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulse-live {
+            0%, 100% {
+                box-shadow: 0 4px 12px rgba(16, 185, 129, 0.4);
+            }
+            50% {
+                box-shadow: 0 4px 20px rgba(16, 185, 129, 0.7);
+            }
+        }
+        
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.3;
+            }
+        }
+
+        .project-card {
+            position: relative;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            min-height: 520px;
+            border-radius: 1.5rem;
+            overflow: hidden;
+        }
+
+        .project-card:hover {
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 25px 60px rgba(99, 102, 241, 0.4);
+        }
+
+        .project-card:focus-visible {
+            outline: 3px solid #6366f1;
+            outline-offset: 6px;
+        }
+
+        .project-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(15, 23, 42, 0), rgba(15, 23, 42, 0.85));
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .project-card:hover .project-overlay {
+            opacity: 1;
+        }
+
+        .project-cta {
+            opacity: 0;
+            transform: translateY(12px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .project-card:hover .project-cta {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .project-grid {
+            align-items: stretch;
+        }
+
+        .project-card-modern {
+            background: rgba(255, 255, 255, 0.95);
+            border: 1px solid rgba(99, 102, 241, 0.15);
+            box-shadow: 0 20px 50px rgba(15, 23, 42, 0.12);
+        }
+
+        .dark .project-card-modern {
+            background: linear-gradient(180deg, rgba(30, 41, 59, 0.98), rgba(15, 23, 42, 1));
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.5);
+        }
+
+        .project-image {
+            height: 240px;
+            overflow: hidden;
+        }
+
+        .project-body {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            flex: 1;
+            padding: 1.5rem;
+        }
+
+        .project-description {
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            line-clamp: 3;
+            overflow: hidden;
+            min-height: 4.5rem;
+        }
+
+        .project-footer {
+            margin-top: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 0.75rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(99, 102, 241, 0.1);
+        }
+
+        #ambient {
+            position: fixed;
+            inset: 0;
+            z-index: -1;
+            background:
+                radial-gradient(1000px circle at 15% 15%, rgba(99, 102, 241, 0.12), transparent 50%),
+                radial-gradient(900px circle at 85% 25%, rgba(16, 185, 129, 0.08), transparent 50%),
+                radial-gradient(1100px circle at 50% 85%, rgba(59, 130, 246, 0.08), transparent 50%);
+            pointer-events: none;
+        }
+
+        #spotlight {
+            display: none;
+        }
+
+        .glow-text {
+            text-shadow: 0 0 40px rgba(99, 102, 241, 0.4);
+        }
+
+        .gradient-text {
+            background: linear-gradient(135deg, #6366f1 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-weight: 800;
+        }
+
+        .glass-strong {
+            background: rgba(255, 255, 255, 0.12);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .dark .glass-strong {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+        }
+
+        .badge-soft {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.6rem 1.2rem;
+            border-radius: 9999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        .badge-soft:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1.5rem;
+            padding: 2rem;
+            backdrop-filter: blur(20px);
+            transition: all 0.4s ease;
+        }
+        
+        .stat-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(99, 102, 241, 0.3);
+        }
+
+        .dark .stat-card {
+            background: rgba(15, 23, 42, 0.7);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .dark .stat-card:hover {
+            background: rgba(15, 23, 42, 0.85);
+        }
+
+        #scrollProgress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 4px;
+            width: 0%;
+            z-index: 60;
+            background: linear-gradient(90deg, #6366f1, #10b981, #3b82f6);
+            transition: width 0.1s ease;
+            box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
         }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-dark-900 dark:text-gray-200 transition-colors duration-300">
+    <div id="scrollProgress"></div>
+    
+    <!-- Image Zoom Modal -->
+    <div id="imageZoomModal" class="image-zoom-modal">
+        <button class="image-zoom-close" onclick="closeImageZoom()">
+            <i class="fas fa-times"></i>
+        </button>
+        <img id="zoomedImage" src="" alt="Zoomed project image">
+    </div>
+    
     <!-- Preloader -->
     <div id="preloader" class="fixed inset-0 z-50 flex items-center justify-center bg-white dark:bg-dark-900 transition-opacity duration-500">
         <div class="relative w-32 h-32">
@@ -248,6 +696,8 @@
 
     <!-- Three.js Background -->
     <div id="threejs-container"></div>
+    <div id="ambient"></div>
+    <div id="spotlight"></div>
 
     <!-- Dark Mode Toggle -->
     <button id="darkModeToggle" class="fixed top-6 right-6 z-50 p-3 rounded-full glass shadow-lg">
@@ -258,19 +708,22 @@
     <!-- Navigation -->
     <nav class="fixed bottom-6 md:bottom-auto md:top-6 left-1/2 transform -translate-x-1/2 z-50">
         <div class="flex space-x-2 p-2 rounded-full glass shadow-lg">
-            <a href="#home" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors">
+            <a href="#home" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Accueil">
                 <i class="fas fa-home"></i>
             </a>
-            <a href="#about" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors">
+            <a href="#about" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="A propos">
                 <i class="fas fa-user"></i>
             </a>
-            <a href="#projects" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors">
+            <a href="#impact" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Impact">
+                <i class="fas fa-rocket"></i>
+            </a>
+            <a href="#projects" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Projets">
                 <i class="fas fa-code"></i>
             </a>
-            <a href="#skills" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors">
+            <a href="#skills" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Competences">
                 <i class="fas fa-cogs"></i>
             </a>
-            <a href="#contact" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors">
+            <a href="#contact" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Contact">
                 <i class="fas fa-envelope"></i>
             </a>
         </div>
@@ -278,33 +731,132 @@
 
     <!-- Hero Section -->
     <section id="home" class="min-h-screen flex items-center justify-center relative overflow-hidden">
-        <div class="container mx-auto px-6 py-20 z-10 text-center fade-in">
-            <h1 class="text-5xl md:text-7xl font-bold mb-4">
+        <div class="container mx-auto px-6 py-20 z-10 text-center">
+            <div class="flex flex-wrap justify-center gap-3 mb-8 fade-in">
+                <span class="badge-soft glass pulse-glow">
+                    <i class="fas fa-bolt text-secondary-light dark:text-secondary-dark"></i>
+                    Disponible pour opportunités 2026
+                </span>
+                <span class="badge-soft glass">
+                    <i class="fas fa-map-marker-alt text-primary-light dark:text-primary-dark"></i>
+                    Casablanca, Maroc
+                </span>
+                <span class="badge-soft glass">
+                    <i class="fas fa-shield-alt text-primary-light dark:text-primary-dark"></i>
+                    Analyste junior en cybersécurité
+                </span>
+            </div>
+            <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 glow-text fade-in delay-100">
                 <span class="text-primary-light dark:text-primary-dark">Bonjour</span> 
-                <span class="wave">👋</span>,<br>
-                Je suis <span class="text-secondary-light dark:text-secondary-dark">BAMBARA VICTORIEN MARIE LANDRY</span>
+                <span class="wave">👋</span><br>
+                Je suis <span class="gradient-text">BAMBARA VICTORIEN MARIE LANDRY</span>
             </h1>
-            <h2 class="text-2xl md:text-3xl mb-8 glass inline-block px-6 py-2 rounded-full">
-                Développeur Full-Stack & Designer UI/UX
+            <h2 class="text-2xl md:text-3xl lg:text-4xl mb-6 glass-strong inline-block px-8 py-4 rounded-2xl fade-in delay-200">
+                Cybersécurité | Développeur Full-Stack
             </h2>
-            <div class="flex flex-wrap justify-center gap-4 mt-10">
-                <a href="#projects" class="px-8 py-3 bg-primary-light dark:bg-primary-dark text-white rounded-full font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
-                    Voir mes projets
+            <p class="max-w-4xl mx-auto text-lg md:text-xl text-gray-700 dark:text-gray-200 leading-relaxed mb-4 fade-in delay-300">
+                J'aide les entreprises à <strong class="text-primary-light dark:text-primary-dark">sécuriser</strong> leurs systèmes et à livrer des <strong class="text-secondary-light dark:text-secondary-dark">expériences web performantes</strong>, fiables et maintenables.
+            </p>
+            <p class="max-w-3xl mx-auto text-base text-gray-600 dark:text-gray-300 mb-10 fade-in delay-400">
+                Transition en cours : profil full-stack vers <strong>Analyste junior en cybersécurité / SOC</strong>
+            </p>
+            <div class="flex flex-wrap justify-center gap-5 mt-12 fade-in delay-500">
+                <a href="#projects" class="group px-10 py-4 bg-gradient-to-r from-primary-light to-primary-dark text-white rounded-2xl font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <i class="fas fa-code mr-2 group-hover:rotate-12 transition-transform"></i>
+                    Découvrir mes projets
                 </a>
-                <a href="cv.pdf" class="px-8 py-3 glass rounded-full font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+                <a href="CV.pdf" class="px-10 py-4 glass-strong rounded-2xl font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <i class="fas fa-download mr-2"></i>
                     Télécharger mon CV
                 </a>
-                <a href="#contact" class="px-8 py-3 glass rounded-full font-semibold hover:bg-opacity-90 transition-all transform hover:scale-105 shadow-lg">
+                <a href="#contact" class="px-10 py-4 bg-gradient-to-r from-secondary-light to-secondary-dark text-white rounded-2xl font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <i class="fas fa-envelope mr-2"></i>
                     Me contacter
                 </a>
             </div>
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16 max-w-5xl mx-auto fade-in delay-600">
+                <div class="stat-card glass">
+                    <p class="text-4xl font-black text-primary-light dark:text-primary-dark mb-2">6+</p>
+                    <p class="text-base font-medium text-gray-700 dark:text-gray-200">Projets complets livrés</p>
+                </div>
+                <div class="stat-card glass">
+                    <p class="text-4xl font-black text-secondary-light dark:text-secondary-dark mb-2">10+</p>
+                    <p class="text-base font-medium text-gray-700 dark:text-gray-200">Technologies maîtrisées</p>
+                </div>
+                <div class="stat-card glass">
+                    <p class="text-4xl font-black text-primary-light dark:text-primary-dark mb-2">4</p>
+                    <p class="text-base font-medium text-gray-700 dark:text-gray-200">Années d'études spécialisées</p>
+                </div>
+            </div>
         </div>
         
-        
         <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
-            <a href="#about" class="text-2xl">
+            <a href="#about" class="text-3xl text-primary-light dark:text-primary-dark">
                 <i class="fas fa-chevron-down"></i>
             </a>
+        </div>
+    </section>
+
+    <!-- Impact Section -->
+    <section id="impact" class="min-h-screen py-20 flex items-center relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold mb-16 text-center fade-in">
+                Ce que j'apporte aux <span class="text-primary-light dark:text-primary-dark">équipes</span>
+            </h2>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div class="glass-strong p-8 rounded-3xl fade-in delay-100">
+                    <h3 class="text-2xl font-semibold mb-4">Impact immédiat</h3>
+                    <p class="mb-6 text-gray-600 dark:text-gray-300">
+                        Je transforme des besoins métiers en interfaces claires et en backends fiables, avec une attention particulière à la sécurité et à la qualité.
+                    </p>
+                    <ul class="space-y-3 text-gray-600 dark:text-gray-300">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-secondary-light dark:text-secondary-dark mt-1"></i>
+                            Développement full-stack rapide et structuré
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-secondary-light dark:text-secondary-dark mt-1"></i>
+                            UX/UI pensée pour convertir et fidéliser
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-check-circle text-secondary-light dark:text-secondary-dark mt-1"></i>
+                            Sécurité applicative et bonnes pratiques réseau
+                        </li>
+                    </ul>
+                    <div class="flex flex-wrap gap-4 mt-8">
+                        <a href="CV.pdf" class="px-6 py-3 bg-primary-light dark:bg-primary-dark text-white rounded-full font-semibold hover:bg-opacity-90 transition-all">
+                            Voir le CV
+                        </a>
+                        <a href="#contact" class="px-6 py-3 glass rounded-full font-semibold hover:bg-opacity-90 transition-all">
+                            Échanger maintenant
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 fade-in delay-200">
+                    <div class="glass p-6 rounded-2xl">
+                        <p class="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Étape 01</p>
+                        <h4 class="text-lg font-semibold mb-2">Découverte</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Compréhension des objectifs, contraintes et utilisateurs.</p>
+                    </div>
+                    <div class="glass p-6 rounded-2xl">
+                        <p class="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Étape 02</p>
+                        <h4 class="text-lg font-semibold mb-2">Conception</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Wireframes, UI system et parcours optimisés.</p>
+                    </div>
+                    <div class="glass p-6 rounded-2xl">
+                        <p class="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Étape 03</p>
+                        <h4 class="text-lg font-semibold mb-2">Implémentation</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Développement itératif, tests et qualité.</p>
+                    </div>
+                    <div class="glass p-6 rounded-2xl">
+                        <p class="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Étape 04</p>
+                        <h4 class="text-lg font-semibold mb-2">Livraison</h4>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Mise en ligne, optimisation et suivi.</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -319,12 +871,18 @@
                 <div class="glass p-8 rounded-3xl fade-in delay-100">
                     <h3 class="text-2xl font-semibold mb-4">Qui suis-je ?</h3>
                     <p class="mb-6">
-                        Étudiant en 3ème année à HESTIM et passionné par le développement web et le design graphique, je combine créativité et expertise technique pour créer des expériences digitales mémorables.
+                        Étudiant en 4ème année à HESTIM, je me spécialise en cybersécurité et j'acquiers des connaissances en réseaux, protocoles de sécurité et fondamentaux de la sécurité informatique.
                     </p>
                     <p class="mb-6">
-                        Fort d'une formation en classe préparatoire à Polytechnique de Casablanca et d'une solide expérience en design graphique, je maîtrise à la fois le développement web et les outils de création visuelle.
+                        En 3ème année, j'ai suivi un parcours en développement web et mené plusieurs projets full-stack. Aujourd'hui, je combine ces acquis avec la sécurité pour concevoir des solutions fiables et performantes.
+                    </p>
+                    <p class="mb-6">
+                        Objectif : évoluer vers un poste d'Analyste junior en cybersécurité / SOC, en capitalisant sur mon expérience web et ma formation sécurité.
                     </p>
                     <div class="flex flex-wrap gap-2 mt-6">
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Cybersécurité</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Réseaux</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Sécurité réseau</span>
                         <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Laravel</span>
                         <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">PHP</span>
                         <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">React</span>
@@ -346,8 +904,20 @@
                                     <div class="w-px h-full bg-gray-300 dark:bg-gray-600"></div>
                                 </div>
                                 <div class="pb-8">
-                                    <p class="text-sm text-gray-500 dark:text-gray-400">2023 - Présent</p>
-                                    <h4 class="font-semibold mb-2">3ème année en Développement Web</h4>
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">2025 - Présent</p>
+                                    <h4 class="font-semibold mb-2">4ème année – Spécialisation Cybersécurité</h4>
+                                    <p class="text-gray-600 dark:text-gray-300">HESTIM, Casablanca</p>
+                                </div>
+                            </div>
+
+                            <div class="flex">
+                                <div class="flex flex-col items-center mr-4">
+                                    <div class="w-4 h-4 bg-secondary-light dark:bg-secondary-dark rounded-full mt-1"></div>
+                                    <div class="w-px h-full bg-gray-300 dark:bg-gray-600"></div>
+                                </div>
+                                <div class="pb-8">
+                                    <p class="text-sm text-gray-500 dark:text-gray-400">2024 - 2025</p>
+                                    <h4 class="font-semibold mb-2">3ème année – Développement Web</h4>
                                     <p class="text-gray-600 dark:text-gray-300">HESTIM, Casablanca</p>
                                 </div>
                             </div>
@@ -399,118 +969,188 @@
                     <button class="filter-btn px-4 py-2 rounded-full" data-filter="design">Design</button>
                 </div>
             </div>
+            <p class="text-center text-sm text-gray-500 dark:text-gray-400 mb-10">
+                Astuce : cliquez sur une carte pour voir le rôle, les objectifs, la galerie et les liens.
+            </p>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <div class="grid project-grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <!-- Project 1 -->
-                <div class="project-card tilt-effect glass rounded-2xl overflow-hidden fade-in delay-100" data-category="web" data-project="1">
-                    <div class="relative overflow-hidden h-48">
-                        <img src="dashboard.png" alt="Dashboard E-commerce" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                <div class="project-card project-card-modern tilt-effect rounded-2xl overflow-hidden fade-in delay-100" data-category="web" data-project="1">
+                    <div class="relative overflow-hidden project-image">
+                        <div class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">Web App</div>
+                        <div class="live-badge">
+                            EN PRODUCTION
+                        </div>
+                        <img src="photo_Afrikraga/1.png" alt="Afrikraga" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="project-overlay">
+                            <button class="view-project-btn project-cta px-4 py-2 bg-white/90 text-gray-900 rounded-full font-semibold hover:bg-white transition-colors" data-project="1">
+                                Découvrir le projet
+                            </button>
+                        </div>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
-                            <h3 class="text-xl font-semibold text-white">Dashboard E-commerce</h3>
+                            <h3 class="text-xl font-semibold text-white">Afrikraga</h3>
                         </div>
                     </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">Plateforme e-commerce complète avec panier, paiement et dashboard admin.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
+                    <div class="p-6 project-body">
+                        <p class="text-gray-600 dark:text-gray-300 project-description">Plateforme web moderne avec backend Laravel, frontend React et base de données PostgreSQL.</p>
+                        <div class="flex flex-wrap gap-2">
                             <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Laravel</span>
-                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">PHP</span>
-                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MySQL</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">React</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">PostgreSQL</span>
                         </div>
-                        <div class="flex space-x-3">
+                        <div class="project-footer">
                             <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="1">
-                                <i class="fas fa-eye mr-1"></i> Voir plus
+                                <i class="fas fa-eye mr-1"></i> Voir le cas complet
                             </button>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Project 2 -->
-                <div class="project-card tilt-effect glass rounded-2xl overflow-hidden fade-in delay-200" data-category="web" data-project="2">
-                    <div class="relative overflow-hidden h-48">
-                        <img src="ecomTest.png" alt="E-commerce" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                <div class="project-card project-card-modern tilt-effect rounded-2xl overflow-hidden fade-in delay-200" data-category="web" data-project="2">
+                    <div class="relative overflow-hidden project-image">
+                        <div class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">Web App</div>
+                        <img src="photo_Freteasy/1.png" alt="Freteasy" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="project-overlay">
+                            <button class="view-project-btn project-cta px-4 py-2 bg-white/90 text-gray-900 rounded-full font-semibold hover:bg-white transition-colors" data-project="2">
+                                Découvrir le projet
+                            </button>
+                        </div>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
-                            <h3 class="text-xl font-semibold text-white">E-commerce</h3>
+                            <h3 class="text-xl font-semibold text-white">Freteasy</h3>
                         </div>
                     </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">Application Web e-commerce avec panier, paiement et dashboard admin.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
+                    <div class="p-6 project-body">
+                        <p class="text-gray-600 dark:text-gray-300 project-description">Plateforme de gestion logistique avec backend Laravel, frontend React et base PostgreSQL.</p>
+                        <div class="flex flex-wrap gap-2">
                             <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Laravel</span>
-                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">PHP</span>
-                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MySQL</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">React</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">PostgreSQL</span>
+                        </div>
+                        <div class="project-footer">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="2">
+                                <i class="fas fa-eye mr-1"></i> Voir le cas complet
+                            </button>
                         </div>
                     </div>
                 </div>
                 
                 <!-- Project 3 -->
-                <div class="project-card tilt-effect glass rounded-2xl overflow-hidden fade-in delay-300" data-category="web" data-project="3">
-                    <div class="relative overflow-hidden h-48">
+                <div class="project-card project-card-modern tilt-effect rounded-2xl overflow-hidden fade-in delay-300" data-category="mobile" data-project="3">
+                    <div class="relative overflow-hidden project-image">
+                        <div class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">Mobile + Web</div>
+                        <img src="photo_AfricaFood_App/Design%20sans%20titre.png" alt="AfricaFood" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="project-overlay">
+                            <button class="view-project-btn project-cta px-4 py-2 bg-white/90 text-gray-900 rounded-full font-semibold hover:bg-white transition-colors" data-project="3">
+                                Découvrir le projet
+                            </button>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
+                            <h3 class="text-xl font-semibold text-white">AfricaFood</h3>
+                        </div>
+                    </div>
+                    <div class="p-6 project-body">
+                        <p class="text-gray-600 dark:text-gray-300 project-description">Application mobile et web en développement avec backend Express, frontend React Native et base MongoDB Atlas.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">React Native</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Express</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MongoDB Atlas</span>
+                        </div>
+                        <div class="project-footer">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="3">
+                                <i class="fas fa-eye mr-1"></i> Voir le cas complet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Project 4 -->
+                <div class="project-card project-card-modern tilt-effect rounded-2xl overflow-hidden fade-in delay-400" data-category="web" data-project="4">
+                    <div class="relative overflow-hidden project-image">
+                        <div class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">Comparateur</div>
                         <img src="comparateurTicket.png" alt="Comparateur de prix" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="project-overlay">
+                            <button class="view-project-btn project-cta px-4 py-2 bg-white/90 text-gray-900 rounded-full font-semibold hover:bg-white transition-colors" data-project="4">
+                                Découvrir le projet
+                            </button>
+                        </div>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
                             <h3 class="text-xl font-semibold text-white">Comparateur de prix de billets de Bus</h3>
                         </div>
                     </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">Application Web permettant de comparer les prix des billets de bus entre différentes compagnies. Ce projet a été développé pour simplifier le processus de recherche et de réservation des billets de bus, en offrant une comparaison en temps réel des prix et des horaires.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
+                    <div class="p-6 project-body">
+                        <p class="text-gray-600 dark:text-gray-300 project-description">Application Web permettant de comparer les prix des billets de bus entre différentes compagnies en temps réel.</p>
+                        <div class="flex flex-wrap gap-2">
                             <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Laravel</span>
                             <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">PHP</span>
                             <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MySQL</span>
-                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">JavaScript</span>
                             <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">API Integration</span>
                         </div>
-                        <div class="flex space-x-3">
-                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="3">
-                                <i class="fas fa-eye mr-1"></i> Voir plus
+                        <div class="project-footer">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="4">
+                                <i class="fas fa-eye mr-1"></i> Voir le cas complet
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 4 - Gestion d'Entreprise -->
-                <div class="project-card tilt-effect glass rounded-2xl overflow-hidden fade-in delay-400" data-category="web" data-project="4">
-                    <div class="relative overflow-hidden h-48">
-                        <img src="dashboard.png" alt="Gestion d'Entreprise" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                <!-- Project 5 -->
+                <div class="project-card project-card-modern tilt-effect rounded-2xl overflow-hidden fade-in delay-500" data-category="web" data-project="5">
+                    <div class="relative overflow-hidden project-image">
+                        <div class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">Dashboard</div>
+                        <img src="gestionentreprise.png" alt="Gestion d'Entreprise" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="project-overlay">
+                            <button class="view-project-btn project-cta px-4 py-2 bg-white/90 text-gray-900 rounded-full font-semibold hover:bg-white transition-colors" data-project="5">
+                                Découvrir le projet
+                            </button>
+                        </div>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
                             <h3 class="text-xl font-semibold text-white">Système de Gestion d'Entreprise</h3>
                         </div>
                     </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">Application complète de gestion financière et de stock pour entreprises. Cette plateforme offre une solution tout-en-un pour la gestion des finances, l'inventaire et le suivi des opérations commerciales. Développée avec les technologies modernes, elle assure une expérience utilisateur fluide et une gestion efficace des données.</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
-                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Laravel</span>
-                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">PHP</span>
-                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MySQL</span>
-                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">JavaScript</span>
-                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Material-UI</span>
+                    <div class="p-6 project-body">
+                        <p class="text-gray-600 dark:text-gray-300 project-description">Plateforme de gestion financière et de stock avec tableau de bord analytique et suivi en temps réel.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">React</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Node.js</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MongoDB</span>
                         </div>
-                        <div class="flex space-x-3">
-                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="4">
-                                <i class="fas fa-eye mr-1"></i> Voir plus
+                        <div class="project-footer">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="5">
+                                <i class="fas fa-eye mr-1"></i> Voir le cas complet
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <!-- Project 5 - Gestion d'Étudiants -->
-                <div class="project-card tilt-effect glass rounded-2xl overflow-hidden fade-in delay-500" data-category="web" data-project="5">
-                    <div class="relative overflow-hidden h-48">
-                        <img src="dashboard1.png" alt="Gestion d'Étudiants" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                <!-- Project 6 -->
+                <div class="project-card project-card-modern tilt-effect rounded-2xl overflow-hidden fade-in delay-600" data-category="web" data-project="6">
+                    <div class="relative overflow-hidden project-image">
+                        <div class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">Site vitrine</div>
+                        <div class="live-badge">
+                            EN PRODUCTION
+                        </div>
+                        <img src="bsinternational.png" alt="BS International" class="w-full h-full object-cover transition-transform duration-500 hover:scale-110">
+                        <div class="project-overlay">
+                            <button class="view-project-btn project-cta px-4 py-2 bg-white/90 text-gray-900 rounded-full font-semibold hover:bg-white transition-colors" data-project="6">
+                                Découvrir le projet
+                            </button>
+                        </div>
                         <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent flex items-end p-6">
                             <h3 class="text-xl font-semibold text-white">Plateforme pour BS INTERNATIONAL</h3>
                         </div>
                     </div>
-                    <div class="p-6">
-                        <p class="text-gray-600 dark:text-gray-300 mb-4">plateforme pour permettre a l'entreprise BS international de montrer ses services et d'avoir un site web pour leurs clients</p>
-                        <div class="flex flex-wrap gap-2 mb-4">
+                    <div class="p-6 project-body">
+                        <p class="text-gray-600 dark:text-gray-300 project-description">Site vitrine pour présenter les services et les pôles d'activité de l'entreprise.</p>
+                        <div class="flex flex-wrap gap-2">
                             <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">HTML</span>
                             <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">CSS</span>
                             <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Tailwind CSS</span>
                             <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">JavaScript</span>
                         </div>
-                        <div class="flex space-x-3">
-                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="5">
-                                <i class="fas fa-eye mr-1"></i> Voir plus
+                        <div class="project-footer">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="6">
+                                <i class="fas fa-eye mr-1"></i> Voir le cas complet
                             </button>
                         </div>
                     </div>
@@ -532,154 +1172,284 @@
     <!-- Skills Section -->
     <section id="skills" class="min-h-screen py-20 relative">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-16 text-center fade-in">
-                Mes <span class="text-primary-light dark:text-primary-dark">compétences</span>
+            <h2 class="text-5xl md:text-6xl font-bold mb-20 text-center fade-in">
+                Mes <span class="gradient-text">Compétences</span>
             </h2>
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
                 <div class="fade-in delay-100">
-                    <h3 class="text-2xl font-semibold mb-6">Technologies principales</h3>
+                    <h3 class="text-3xl font-bold mb-8 flex items-center gap-3">
+                        <i class="fas fa-code text-primary-light dark:text-primary-dark"></i>
+                        Technologies principales
+                    </h3>
                     
-                    <div class="space-y-6">
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">Laravel / PHP</span>
-                                <span>85%</span>
+                    <div class="space-y-8">
+                        <div class="group">
+                            <div class="flex justify-between mb-3">
+                                <span class="font-bold text-lg flex items-center gap-2">
+                                    <i class="fab fa-laravel text-red-600"></i>
+                                    Laravel / PHP
+                                </span>
+                                <span class="text-2xl font-black text-primary-light dark:text-primary-dark">85%</span>
                             </div>
-                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                                <div class="skill-bar bg-primary-light dark:bg-primary-dark h-2.5 rounded-full" style="width: 85%"></div>
-                            </div>
-                        </div>
-                        
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">React / Next.js</span>
-                                <span>80%</span>
-                            </div>
-                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                                <div class="skill-bar bg-primary-light dark:bg-primary-dark h-2.5 rounded-full" style="width: 80%"></div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div class="skill-bar bg-gradient-to-r from-primary-light to-primary-dark h-4 rounded-full" style="width: 85%"></div>
                             </div>
                         </div>
                         
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">Node.js / Express</span>
-                                <span>75%</span>
+                        <div class="group">
+                            <div class="flex justify-between mb-3">
+                                <span class="font-bold text-lg flex items-center gap-2">
+                                    <i class="fab fa-react text-blue-500"></i>
+                                    React / Next.js
+                                </span>
+                                <span class="text-2xl font-black text-primary-light dark:text-primary-dark">80%</span>
                             </div>
-                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                                <div class="skill-bar bg-primary-light dark:bg-primary-dark h-2.5 rounded-full" style="width: 75%"></div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div class="skill-bar bg-gradient-to-r from-blue-500 to-cyan-500 h-4 rounded-full" style="width: 80%"></div>
                             </div>
                         </div>
                         
-                        <div>
-                            <div class="flex justify-between mb-2">
-                                <span class="font-medium">Flutter / Dart</span>
-                                <span>70%</span>
+                        <div class="group">
+                            <div class="flex justify-between mb-3">
+                                <span class="font-bold text-lg flex items-center gap-2">
+                                    <i class="fab fa-node-js text-green-600"></i>
+                                    Node.js / Express
+                                </span>
+                                <span class="text-2xl font-black text-secondary-light dark:text-secondary-dark">75%</span>
                             </div>
-                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
-                                <div class="skill-bar bg-primary-light dark:bg-primary-dark h-2.5 rounded-full" style="width: 70%"></div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div class="skill-bar bg-gradient-to-r from-secondary-light to-secondary-dark h-4 rounded-full" style="width: 75%"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="group">
+                            <div class="flex justify-between mb-3">
+                                <span class="font-bold text-lg flex items-center gap-2">
+                                    <i class="fas fa-shield-alt text-indigo-600"></i>
+                                    Réseaux & Cybersécurité
+                                </span>
+                                <span class="text-2xl font-black text-primary-light dark:text-primary-dark">70%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div class="skill-bar bg-gradient-to-r from-indigo-600 to-purple-600 h-4 rounded-full" style="width: 70%"></div>
                             </div>
                         </div>
                     </div>
                 </div>
                 
                 <div class="fade-in delay-200">
-                    <h3 class="text-2xl font-semibold mb-6">Design & Création</h3>
+                    <h3 class="text-3xl font-bold mb-8 flex items-center gap-3">
+                        <i class="fas fa-palette text-secondary-light dark:text-secondary-dark"></i>
+                        Design & Création
+                    </h3>
                     
-                    <div class="grid grid-cols-3 gap-4">
-                        <div class="flex flex-col items-center glass p-4 rounded-xl">
-                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-5">
+                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
+                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-blue-600">
                                 <i class="fab fa-adobe"></i>
                             </div>
-                            <span class="text-sm text-center">Photoshop</span>
+                            <span class="text-sm font-bold text-center">Photoshop</span>
                         </div>
                         
-                        <div class="flex flex-col items-center glass p-4 rounded-xl">
-                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
+                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-orange-600">
                                 <i class="fab fa-adobe"></i>
                             </div>
-                            <span class="text-sm text-center">Illustrator</span>
+                            <span class="text-sm font-bold text-center">Illustrator</span>
                         </div>
                         
-                        <div class="flex flex-col items-center glass p-4 rounded-xl">
-                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
+                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-purple-600">
                                 <i class="fas fa-palette"></i>
                             </div>
-                            <span class="text-sm text-center">Canva</span>
+                            <span class="text-sm font-bold text-center">Canva</span>
                         </div>
                         
-                        <div class="flex flex-col items-center glass p-4 rounded-xl">
-                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
+                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-pink-600">
                                 <i class="fas fa-pencil-ruler"></i>
                             </div>
-                            <span class="text-sm text-center">Design UI/UX</span>
+                            <span class="text-sm font-bold text-center">Design UI/UX</span>
                         </div>
                         
-                        <div class="flex flex-col items-center glass p-4 rounded-xl">
-                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
+                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-red-600">
                                 <i class="fas fa-paint-brush"></i>
                             </div>
-                            <span class="text-sm text-center">Graphisme</span>
+                            <span class="text-sm font-bold text-center">Graphisme</span>
                         </div>
                         
-                        <div class="flex flex-col items-center glass p-4 rounded-xl">
-                            <div class="w-12 h-12 mb-3 flex items-center justify-center text-2xl text-primary-light dark:text-primary-dark">
+                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
+                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-green-600">
                                 <i class="fas fa-image"></i>
                             </div>
-                            <span class="text-sm text-center">Retouche Photo</span>
+                            <span class="text-sm font-bold text-center">Retouche Photo</span>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="mt-16 fade-in delay-300">
-                <h3 class="text-2xl font-semibold mb-6 text-center">Technologies que j'utilise</h3>
+            <div class="mb-16 fade-in delay-300">
+                <h3 class="text-3xl font-bold mb-10 text-center flex items-center justify-center gap-3">
+                    <i class="fas fa-shield-virus text-primary-light dark:text-primary-dark"></i>
+                    Expertise Cybersécurité
+                </h3>
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
+                    <div class="badge-soft glass text-center py-4">
+                        <i class="fas fa-network-wired text-primary-light block mb-2 text-2xl"></i>
+                        Réseaux TCP/IP
+                    </div>
+                    <div class="badge-soft glass text-center py-4">
+                        <i class="fas fa-lock text-secondary-light block mb-2 text-2xl"></i>
+                        TLS/HTTPS
+                    </div>
+                    <div class="badge-soft glass text-center py-4">
+                        <i class="fas fa-user-shield text-primary-light block mb-2 text-2xl"></i>
+                        Auth & Accès
+                    </div>
+                    <div class="badge-soft glass text-center py-4">
+                        <i class="fas fa-bug text-red-600 block mb-2 text-2xl"></i>
+                        OWASP Top 10
+                    </div>
+                    <div class="badge-soft glass text-center py-4">
+                        <i class="fas fa-key text-yellow-600 block mb-2 text-2xl"></i>
+                        Chiffrement
+                    </div>
+                    <div class="badge-soft glass text-center py-4">
+                        <i class="fas fa-shield-check text-green-600 block mb-2 text-2xl"></i>
+                        Sécurité Apps
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-16 fade-in delay-400">
+                <h3 class="text-3xl font-bold mb-10 text-center flex items-center justify-center gap-3">
+                    <i class="fas fa-certificate text-secondary-light dark:text-secondary-dark"></i>
+                    Certifications
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto">
+                    <div class="glass-strong p-6 rounded-2xl text-center card-hover">
+                        <div class="w-16 h-16 bg-primary-light dark:bg-primary-dark rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
+                            <i class="fas fa-network-wired"></i>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Cisco Networking Academy</p>
+                        <p class="font-bold text-lg">Notions de base sur les réseaux</p>
+                    </div>
+                    <div class="glass-strong p-6 rounded-2xl text-center card-hover">
+                        <div class="w-16 h-16 bg-secondary-light dark:bg-secondary-dark rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Cisco Networking Academy</p>
+                        <p class="font-bold text-lg">Sécurité des réseaux et protocoles</p>
+                    </div>
+                    <div class="glass-strong p-6 rounded-2xl text-center card-hover">
+                        <div class="w-16 h-16 bg-primary-light dark:bg-primary-dark rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
+                            <i class="fas fa-tools"></i>
+                        </div>
+                        <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Cisco Networking Academy</p>
+                        <p class="font-bold text-lg">Support et sécurité des réseaux</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-16 fade-in delay-500">
+                <h3 class="text-3xl font-bold mb-10 text-center flex items-center justify-center gap-3">
+                    <i class="fas fa-tools text-primary-light dark:text-primary-dark"></i>
+                    Outils & Environnements
+                </h3>
+                <div class="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
+                    <span class="badge-soft glass text-base py-3 px-6">
+                        <i class="fab fa-linux text-yellow-600"></i> Linux
+                    </span>
+                    <span class="badge-soft glass text-base py-3 px-6">
+                        <i class="fas fa-project-diagram text-blue-600"></i> Wireshark
+                    </span>
+                    <span class="badge-soft glass text-base py-3 px-6">
+                        <i class="fas fa-radar text-green-600"></i> Nmap
+                    </span>
+                    <span class="badge-soft glass text-base py-3 px-6">
+                        <i class="fab fa-git-alt text-orange-600"></i> Git
+                    </span>
+                    <span class="badge-soft glass text-base py-3 px-6">
+                        <i class="fas fa-rocket text-red-600"></i> Postman
+                    </span>
+                    <span class="badge-soft glass text-base py-3 px-6">
+                        <i class="fas fa-terminal text-purple-600"></i> CLI
+                    </span>
+                </div>
+            </div>
+
+            <div class="fade-in delay-600">
+                <h3 class="text-3xl font-bold mb-10 text-center flex items-center justify-center gap-3">
+                    <i class="fas fa-layer-group text-secondary-light dark:text-secondary-dark"></i>
+                    Stack Technologique
+                </h3>
                 
-                <div class="flex flex-wrap justify-center gap-6">
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-react" style="color: #61DAFB;"></i>
+                <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-6 max-w-6xl mx-auto">
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-react text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #61DAFB;"></i>
+                        <span class="text-xs font-medium">React</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-js" style="color: #F7DF1E;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-js text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #F7DF1E;"></i>
+                        <span class="text-xs font-medium">JavaScript</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-node-js" style="color: #339933;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-node-js text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #339933;"></i>
+                        <span class="text-xs font-medium">Node.js</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-html5" style="color: #E34F26;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-html5 text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #E34F26;"></i>
+                        <span class="text-xs font-medium">HTML5</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-css3-alt" style="color: #1572B6;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-css3-alt text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #1572B6;"></i>
+                        <span class="text-xs font-medium">CSS3</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-git-alt" style="color: #F05032;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-git-alt text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #F05032;"></i>
+                        <span class="text-xs font-medium">Git</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-docker" style="color: #2496ED;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-docker text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #2496ED;"></i>
+                        <span class="text-xs font-medium">Docker</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-python" style="color: #3776AB;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-python text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #3776AB;"></i>
+                        <span class="text-xs font-medium">Python</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-laravel" style="color: #FF2D20;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-laravel text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #FF2D20;"></i>
+                        <span class="text-xs font-medium">Laravel</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-php" style="color: #777BB4;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-php text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #777BB4;"></i>
+                        <span class="text-xs font-medium">PHP</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-wordpress" style="color: #21759B;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-wordpress text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #21759B;"></i>
+                        <span class="text-xs font-medium">WordPress</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-bootstrap" style="color: #563D7C;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-bootstrap text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #563D7C;"></i>
+                        <span class="text-xs font-medium">Bootstrap</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-java" style="color: #007396;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-java text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #007396;"></i>
+                        <span class="text-xs font-medium">Java</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-csharp" style="color: #239120;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fab fa-js text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #239120;"></i>
+                        <span class="text-xs font-medium">C#</span>
                     </div>
-                    <div class="tech-icon glass p-4 rounded-full w-16 h-16 flex items-center justify-center text-3xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                        <i class="fab fa-mysql" style="color: #4479A1;"></i>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fas fa-database text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #4479A1;"></i>
+                        <span class="text-xs font-medium">MySQL</span>
+                    </div>
+                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
+                        <i class="fas fa-leaf text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #47A248;"></i>
+                        <span class="text-xs font-medium">MongoDB</span>
                     </div>
                 </div>
             </div>
@@ -689,100 +1459,78 @@
     <!-- Contact Section -->
     <section id="contact" class="min-h-screen py-20 flex items-center relative">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-16 text-center fade-in">
-                Me <span class="text-primary-light dark:text-primary-dark">contacter</span>
+            <h2 class="text-5xl md:text-6xl font-bold mb-12 text-center fade-in">
+                Restons <span class="gradient-text">Connectés</span>
             </h2>
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                <div class="fade-in delay-100">
-                    <div class="glass p-8 rounded-3xl">
-                        <h3 class="text-2xl font-semibold mb-6">Envoyez-moi un message</h3>
-                        
-                        <form id="contactForm" class="space-y-6">
-                            <div>
-                                <label for="name" class="block mb-2 text-sm font-medium">Votre nom</label>
-                                <input type="text" id="name" name="name" class="w-full px-4 py-3 bg-white/50 dark:bg-dark-700/50 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent" required>
+            <p class="text-center text-xl text-gray-600 dark:text-gray-300 mb-16 max-w-3xl mx-auto fade-in delay-100">
+                Vous avez un projet en tête ou souhaitez discuter d'opportunités ? N'hésitez pas à me contacter. Je suis toujours ouvert aux nouvelles collaborations.
+            </p>
+            
+            <div class="max-w-5xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
+                    <div class="fade-in delay-100">
+                        <div class="glass-strong p-8 rounded-2xl text-center card-hover h-full">
+                            <div class="w-20 h-20 bg-gradient-to-br from-primary-light to-primary-dark rounded-2xl flex items-center justify-center text-white text-3xl mx-auto mb-6 shadow-lg">
+                                <i class="fas fa-map-marker-alt"></i>
                             </div>
-                            
-                            <div>
-                                <label for="email" class="block mb-2 text-sm font-medium">Votre email</label>
-                                <input type="email" id="email" name="email" class="w-full px-4 py-3 bg-white/50 dark:bg-dark-700/50 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent" required>
-                            </div>
-                            
-                            <div>
-                                <label for="subject" class="block mb-2 text-sm font-medium">Sujet</label>
-                                <input type="text" id="subject" name="subject" class="w-full px-4 py-3 bg-white/50 dark:bg-dark-700/50 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent" required>
-                            </div>
-                            
-                            <div>
-                                <label for="message" class="block mb-2 text-sm font-medium">Votre message</label>
-                                <textarea id="message" name="message" rows="5" class="w-full px-4 py-3 bg-white/50 dark:bg-dark-700/50 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-light dark:focus:ring-primary-dark focus:border-transparent" required></textarea>
-                            </div>
-                            
-                            <button type="submit" class="w-full px-6 py-3 bg-primary-light dark:bg-primary-dark text-white font-medium rounded-lg hover:bg-opacity-90 transition-colors">
-                                Envoyer le message
-                            </button>
-                        </form>
-                        
-                        <div id="formSuccess" class="hidden mt-6 p-4 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-lg">
-                            Votre message a été envoyé avec succès ! Je vous répondrai dès que possible.
+                            <h3 class="text-xl font-bold mb-3">Localisation</h3>
+                            <p class="text-gray-600 dark:text-gray-300 text-lg">Casablanca, Maroc</p>
                         </div>
-                        
-                        <div id="formError" class="hidden mt-6 p-4 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-lg">
-                            Une erreur s'est produite lors de l'envoi du message. Veuillez réessayer.
+                    </div>
+                    
+                    <div class="fade-in delay-200">
+                        <div class="glass-strong p-8 rounded-2xl text-center card-hover h-full">
+                            <div class="w-20 h-20 bg-gradient-to-br from-secondary-light to-secondary-dark rounded-2xl flex items-center justify-center text-white text-3xl mx-auto mb-6 shadow-lg">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3">Email</h3>
+                            <a href="mailto:landrybambara04@gmail.com" class="text-primary-light dark:text-primary-dark hover:underline text-lg font-medium">
+                                landrybambara04@gmail.com
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="fade-in delay-300">
+                        <div class="glass-strong p-8 rounded-2xl text-center card-hover h-full">
+                            <div class="w-20 h-20 bg-gradient-to-br from-primary-light to-secondary-dark rounded-2xl flex items-center justify-center text-white text-3xl mx-auto mb-6 shadow-lg">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <h3 class="text-xl font-bold mb-3">Téléphone</h3>
+                            <a href="tel:+212625522843" class="text-gray-600 dark:text-gray-300 hover:text-primary-light dark:hover:text-primary-dark transition-colors text-lg font-medium">
+                                +212 6 25 52 28 43
+                            </a>
                         </div>
                     </div>
                 </div>
                 
-                <div class="fade-in delay-200">
-                    <div class="glass p-8 rounded-3xl h-full">
-                        <h3 class="text-2xl font-semibold mb-6">Coordonnées</h3>
-                        
-                        <div class="space-y-6">
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0 w-10 h-10 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full flex items-center justify-center text-primary-light dark:text-primary-dark mr-4 mt-1">
-                                    <i class="fas fa-map-marker-alt"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-medium">Localisation</h4>
-                                    <p class="text-gray-600 dark:text-gray-300">Casablanca, Maroc</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0 w-10 h-10 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full flex items-center justify-center text-primary-light dark:text-primary-dark mr-4 mt-1">
-                                    <i class="fas fa-envelope"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-medium">Email</h4>
-                                    <p class="text-gray-600 dark:text-gray-300">landrybambara04@gmail.com</p>
-                                </div>
-                            </div>
-                            
-                            <div class="flex items-start">
-                                <div class="flex-shrink-0 w-10 h-10 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full flex items-center justify-center text-primary-light dark:text-primary-dark mr-4 mt-1">
-                                    <i class="fas fa-phone-alt"></i>
-                                </div>
-                                <div>
-                                    <h4 class="font-medium">Téléphone</h4>
-                                    <p class="text-gray-600 dark:text-gray-300">+212 6 25 52 28 43</p>
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <h3 class="text-2xl font-semibold mt-12 mb-6">Réseaux sociaux</h3>
-                        
-                        <div class="flex space-x-4">
-                            <a href="#" class="social-icon w-12 h-12 rounded-full glass flex items-center justify-center text-xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                                <i class="fab fa-linkedin-in"></i>
-                            </a>
-                            <a href="#" class="social-icon w-12 h-12 rounded-full glass flex items-center justify-center text-xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                                <i class="fab fa-github"></i>
-                            </a>
-                            <a href="#" class="social-icon w-12 h-12 rounded-full glass flex items-center justify-center text-xl hover:text-primary-light dark:hover:text-primary-dark transition-colors">
-                                <i class="fab fa-whatsapp"></i>
-                            </a>
-                        </div>
+                <div class="text-center fade-in delay-400">
+                    <h3 class="text-3xl font-bold mb-8">Suivez-moi sur les réseaux</h3>
+                    
+                    <div class="flex justify-center gap-6 mb-12">
+                        <a href="https://www.linkedin.com/in/landry-bambara" target="_blank" rel="noopener noreferrer" class="group w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-800 rounded-2xl flex items-center justify-center text-white text-2xl hover:shadow-2xl transition-all transform hover:scale-110 hover:-translate-y-2" aria-label="LinkedIn">
+                            <i class="fab fa-linkedin-in group-hover:rotate-12 transition-transform"></i>
+                        </a>
+                        <a href="https://github.com/Small-Danger" target="_blank" rel="noopener noreferrer" class="group w-16 h-16 bg-gradient-to-br from-gray-700 to-gray-900 rounded-2xl flex items-center justify-center text-white text-2xl hover:shadow-2xl transition-all transform hover:scale-110 hover:-translate-y-2" aria-label="GitHub">
+                            <i class="fab fa-github group-hover:rotate-12 transition-transform"></i>
+                        </a>
+                        <a href="https://wa.me/212625522843" target="_blank" rel="noopener noreferrer" class="group w-16 h-16 bg-gradient-to-br from-green-500 to-green-700 rounded-2xl flex items-center justify-center text-white text-2xl hover:shadow-2xl transition-all transform hover:scale-110 hover:-translate-y-2" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp group-hover:rotate-12 transition-transform"></i>
+                        </a>
+                        <a href="mailto:landrybambara04@gmail.com" class="group w-16 h-16 bg-gradient-to-br from-red-500 to-red-700 rounded-2xl flex items-center justify-center text-white text-2xl hover:shadow-2xl transition-all transform hover:scale-110 hover:-translate-y-2" aria-label="Email">
+                            <i class="fas fa-envelope group-hover:rotate-12 transition-transform"></i>
+                        </a>
+                    </div>
+                    
+                    <div class="flex flex-wrap justify-center gap-4">
+                        <a href="mailto:landrybambara04@gmail.com" class="px-8 py-4 bg-gradient-to-r from-primary-light to-primary-dark text-white rounded-2xl font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 hover:-translate-y-1">
+                            <i class="fas fa-paper-plane mr-2"></i>
+                            Envoyer un email
+                        </a>
+                        <a href="CV.pdf" class="px-8 py-4 glass-strong rounded-2xl font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 hover:-translate-y-1">
+                            <i class="fas fa-download mr-2"></i>
+                            Télécharger mon CV
+                        </a>
                     </div>
                 </div>
             </div>
@@ -790,32 +1538,100 @@
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark-800 text-gray-300 py-12">
-        <div class="container mx-auto px-6">
-            <div class="flex flex-col md:flex-row justify-between items-center">
-                <div class="mb-6 md:mb-0">
-                    <h2 class="text-2xl font-bold text-white mb-2">BAMBARA VICTORIEN MARIE LANDRY</h2>
-                    <p class="text-gray-400">Développeur Full Stack & Designer UI/UX</p>
-                </div>
-                
-                <div class="flex flex-col items-center md:items-end">
-                    <div class="flex space-x-4 mb-4">
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+    <footer class="relative bg-gradient-to-br from-dark-900 via-dark-800 to-dark-900 text-gray-300 py-16 border-t border-gray-800">
+        <div class="absolute inset-0 opacity-5">
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary-light rounded-full filter blur-3xl"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary-light rounded-full filter blur-3xl"></div>
+        </div>
+        
+        <div class="container mx-auto px-6 relative z-10">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+                <div>
+                    <h2 class="text-3xl font-black bg-gradient-to-r from-primary-light to-secondary-light bg-clip-text text-transparent mb-4">
+                        LANDRY BAMBARA
+                    </h2>
+                    <p class="text-gray-400 mb-6 leading-relaxed">
+                        Développeur Full-Stack passionné et spécialiste en cybersécurité, créant des solutions web performantes et sécurisées.
+                    </p>
+                    <div class="flex gap-4">
+                        <a href="https://www.linkedin.com/in/landry-bambara" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-800 hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 rounded-lg flex items-center justify-center transition-all transform hover:scale-110" aria-label="LinkedIn">
                             <i class="fab fa-linkedin-in"></i>
                         </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <a href="https://github.com/Small-Danger" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-800 hover:bg-gradient-to-br hover:from-gray-700 hover:to-gray-900 rounded-lg flex items-center justify-center transition-all transform hover:scale-110" aria-label="GitHub">
                             <i class="fab fa-github"></i>
                         </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
-                            <i class="fab fa-twitter"></i>
+                        <a href="https://wa.me/212625522843" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-800 hover:bg-gradient-to-br hover:from-green-500 hover:to-green-700 rounded-lg flex items-center justify-center transition-all transform hover:scale-110" aria-label="WhatsApp">
+                            <i class="fab fa-whatsapp"></i>
                         </a>
-                        <a href="#" class="text-gray-400 hover:text-white transition-colors">
+                        <a href="mailto:landrybambara04@gmail.com" class="w-10 h-10 bg-gray-800 hover:bg-gradient-to-br hover:from-red-500 hover:to-red-700 rounded-lg flex items-center justify-center transition-all transform hover:scale-110" aria-label="Email">
                             <i class="fas fa-envelope"></i>
                         </a>
                     </div>
-                    
-                    <p class="text-sm text-gray-500">
-                        &copy; 2025 BAMBARA VICTORIEN MARIE LANDRY. Tous droits réservés.
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">Navigation Rapide</h3>
+                    <ul class="space-y-3">
+                        <li>
+                            <a href="#home" class="text-gray-400 hover:text-primary-light transition-colors flex items-center gap-2">
+                                <i class="fas fa-chevron-right text-xs"></i> Accueil
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#about" class="text-gray-400 hover:text-primary-light transition-colors flex items-center gap-2">
+                                <i class="fas fa-chevron-right text-xs"></i> À propos
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#projects" class="text-gray-400 hover:text-primary-light transition-colors flex items-center gap-2">
+                                <i class="fas fa-chevron-right text-xs"></i> Projets
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#skills" class="text-gray-400 hover:text-primary-light transition-colors flex items-center gap-2">
+                                <i class="fas fa-chevron-right text-xs"></i> Compétences
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#contact" class="text-gray-400 hover:text-primary-light transition-colors flex items-center gap-2">
+                                <i class="fas fa-chevron-right text-xs"></i> Contact
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h3 class="text-xl font-bold text-white mb-4">Contact Direct</h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-envelope text-primary-light mt-1"></i>
+                            <a href="mailto:landrybambara04@gmail.com" class="text-gray-400 hover:text-white transition-colors">
+                                landrybambara04@gmail.com
+                            </a>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-phone text-secondary-light mt-1"></i>
+                            <a href="tel:+212625522843" class="text-gray-400 hover:text-white transition-colors">
+                                +212 6 25 52 28 43
+                            </a>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <i class="fas fa-map-marker-alt text-primary-light mt-1"></i>
+                            <span class="text-gray-400">
+                                Casablanca, Maroc
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 pt-8">
+                <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <p class="text-gray-500 text-sm text-center md:text-left">
+                        &copy; 2026 <span class="text-white font-semibold">BAMBARA VICTORIEN MARIE LANDRY</span>. Tous droits réservés.
+                    </p>
+                    <p class="text-gray-500 text-sm flex items-center gap-2">
+                        Conçu avec <i class="fas fa-heart text-red-500 animate-pulse"></i> et passion
                     </p>
                 </div>
             </div>
@@ -846,73 +1662,72 @@
             document.documentElement.classList.add('dark');
         }
 
+        // Scroll progress bar
+        const scrollProgress = document.getElementById('scrollProgress');
+        window.addEventListener('scroll', () => {
+            const height = document.documentElement.scrollHeight - window.innerHeight;
+            const progress = height > 0 ? (window.scrollY / height) * 100 : 0;
+            scrollProgress.style.width = `${progress}%`;
+        });
+
         // Three.js Scene
         function initThreeJS() {
             const container = document.getElementById('threejs-container');
             
-            // Scene
             const scene = new THREE.Scene();
             
-            // Camera
             const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
             camera.position.z = 30;
             
-            // Renderer
             const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
             renderer.setSize(window.innerWidth, window.innerHeight);
-            renderer.setPixelRatio(window.devicePixelRatio);
+            renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
             container.appendChild(renderer.domElement);
             
-            // Lights
-            const ambientLight = new THREE.AmbientLight(0x404040);
+            const ambientLight = new THREE.AmbientLight(0x404040, 0.8);
             scene.add(ambientLight);
             
             const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
             directionalLight.position.set(1, 1, 1);
             scene.add(directionalLight);
             
-            // Multiple 3D Objects
             const objects = [];
             
-            // Main Icosahedron
-            const geometry1 = new THREE.IcosahedronGeometry(10, 0);
+            const geometry1 = new THREE.IcosahedronGeometry(10, 1);
             const material1 = new THREE.MeshPhongMaterial({
                 color: 0x6366f1,
                 wireframe: true,
                 transparent: true,
-                opacity: 0.5,
+                opacity: 0.4,
                 shininess: 100
             });
             const mesh1 = new THREE.Mesh(geometry1, material1);
             scene.add(mesh1);
             objects.push(mesh1);
             
-            // Secondary Torus
-            const geometry2 = new THREE.TorusGeometry(15, 2, 16, 100);
+            const geometry2 = new THREE.TorusGeometry(15, 1.5, 16, 100);
             const material2 = new THREE.MeshPhongMaterial({
                 color: 0x10b981,
                 wireframe: true,
                 transparent: true,
-                opacity: 0.3,
+                opacity: 0.25,
                 shininess: 100
             });
             const mesh2 = new THREE.Mesh(geometry2, material2);
             scene.add(mesh2);
             objects.push(mesh2);
             
-            // Floating Cubes
-            for (let i = 0; i < 20; i++) {
-                const geometry = new THREE.BoxGeometry(2, 2, 2);
+            for (let i = 0; i < 15; i++) {
+                const geometry = new THREE.BoxGeometry(1.5, 1.5, 1.5);
                 const material = new THREE.MeshPhongMaterial({
-                    color: Math.random() * 0xffffff,
+                    color: Math.random() > 0.5 ? 0x6366f1 : 0x10b981,
                     wireframe: true,
                     transparent: true,
-                    opacity: 0.2,
+                    opacity: 0.15,
                     shininess: 100
                 });
                 const cube = new THREE.Mesh(geometry, material);
                 
-                // Random position
                 cube.position.x = (Math.random() - 0.5) * 50;
                 cube.position.y = (Math.random() - 0.5) * 50;
                 cube.position.z = (Math.random() - 0.5) * 50;
@@ -921,49 +1736,21 @@
                 objects.push(cube);
             }
             
-            // Mouse interaction
-            const mouse = new THREE.Vector2();
-            const raycaster = new THREE.Raycaster();
-            
-            document.addEventListener('mousemove', (event) => {
-                mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-                mouse.y = -(event.clientY / window.innerHeight) * 2 + 1;
-            });
-            
-            // Animation
             function animate() {
                 requestAnimationFrame(animate);
                 
-                // Rotate main objects
-                mesh1.rotation.x += 0.005;
-                mesh1.rotation.y += 0.01;
+                mesh1.rotation.x += 0.003;
+                mesh1.rotation.y += 0.006;
                 
-                mesh2.rotation.x += 0.003;
-                mesh2.rotation.y += 0.005;
+                mesh2.rotation.x += 0.002;
+                mesh2.rotation.y += 0.004;
                 
-                // Rotate and move cubes
                 objects.forEach((object, index) => {
-                    if (index > 1) { // Skip main objects
-                        object.rotation.x += 0.01;
-                        object.rotation.y += 0.01;
-                        
-                        // Floating animation
-                        object.position.y += Math.sin(Date.now() * 0.001 + index) * 0.01;
-                        object.position.x += Math.cos(Date.now() * 0.001 + index) * 0.01;
-                    }
-                });
-                
-                // Mouse interaction
-                raycaster.setFromCamera(mouse, camera);
-                const intersects = raycaster.intersectObjects(objects);
-                
-                objects.forEach(object => {
-                    if (intersects.length > 0 && intersects[0].object === object) {
-                        object.material.opacity = 0.8;
-                        object.scale.set(1.2, 1.2, 1.2);
-                    } else {
-                        object.material.opacity = object === mesh1 ? 0.5 : 0.2;
-                        object.scale.set(1, 1, 1);
+                    if (index > 1) {
+                        object.rotation.x += 0.008;
+                        object.rotation.y += 0.008;
+                        object.position.y += Math.sin(Date.now() * 0.001 + index) * 0.008;
+                        object.position.x += Math.cos(Date.now() * 0.001 + index) * 0.008;
                     }
                 });
                 
@@ -972,7 +1759,6 @@
             
             animate();
             
-            // Handle window resize
             window.addEventListener('resize', function() {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
@@ -980,7 +1766,6 @@
             });
         }
 
-        // Initialize Three.js after page load
         window.addEventListener('load', initThreeJS);
 
         // Project filtering
@@ -1012,55 +1797,73 @@
         // Project showcase functionality
         const projectsData = {
             1: {
-                title: "Dashboard E-commerce",
-                description: "Plateforme e-commerce complète avec système de gestion de produits, panier d'achat, passerelle de paiement sécurisée et tableau de bord administrateur avancé. Ce projet a été développé avec Laravel pour le backend et React pour le frontend, offrant une expérience utilisateur fluide et intuitive.",
-                technologies: ["Laravel", "PHP", "MySQL", "React", "Tailwind CSS"],
-                images: ["dashboard.png", "dashboard1.png", "dashboard2.png",],
+                title: "Afrikraga",
+                description: "Plateforme web moderne avec backend Laravel, frontend React et base de données PostgreSQL.",
+                role: "Full-stack",
+                objective: "Livrer une expérience web fluide et sécurisée.",
+                technologies: ["Laravel", "React", "PostgreSQL"],
+                images: ["photo_Afrikraga/1.png", "photo_Afrikraga/2.png", "photo_Afrikraga/3.png", "photo_Afrikraga/4.png"],
                 features: [
-                    "Gestion complète des produits avec catégories et tags",
-                    "Système de panier et de commandes en temps réel",
-                    "Passerelle de paiement intégrée (Stripe)",
-                    "Tableau de bord administrateur avec statistiques",
-                    "Système d'authentification sécurisé"
+                    "Architecture back-end Laravel",
+                    "Interface React responsive",
+                    "Gestion des données via PostgreSQL",
+                    "Parcours utilisateur clair et moderne",
+                    "Performance et scalabilité"
                 ],
-                demoUrl: "#",
-                githubUrl: "#"
+                demoUrl: "https://afrikraga.com/",
             },
             2: {
-                title: "Plateforme E-commerce",
-                description: "Application Web e-commerce complète avec gestion des produits, panier, système de paiement et interface administrateur. Développée avec Laravel et MySQL, cette plateforme offre une solution complète pour les boutiques en ligne avec une interface utilisateur moderne et réactive.",
-                technologies: ["Laravel", "PHP", "MySQL", "Bootstrap", "JavaScript"],
-                images: ["ecomTest.png", "dashboard.png", "comparateurTicket.png"],
+                title: "Freteasy",
+                description: "Plateforme logistique avec backend Laravel, frontend React et base PostgreSQL pour la gestion opérationnelle.",
+                role: "Full-stack",
+                objective: "Faciliter la gestion et le suivi des opérations logistiques.",
+                technologies: ["Laravel", "React", "PostgreSQL"],
+                images: ["photo_Freteasy/1.png", "photo_Freteasy/2.png", "photo_Freteasy/3.png", "photo_Freteasy/4.png"],
                 features: [
-                    "Catalogue produit avec filtres avancés",
-                    "Système d'évaluation et de commentaires",
-                    "Gestion des stocks en temps réel",
-                    "Interface administrateur complète",
-                    "Optimisation pour le référencement (SEO)"
+                    "Gestion centralisée des opérations",
+                    "Interfaces claires et rapides",
+                    "Base de données PostgreSQL robuste",
+                    "Suivi en temps réel",
+                    "Architecture évolutive"
                 ],
-                demoUrl: "#",
-                githubUrl: "#"
             },
             3: {
+                title: "AfricaFood",
+                description: "Application mobile et web en développement avec backend Express, frontend React Native et base MongoDB Atlas.",
+                role: "Full-stack",
+                objective: "Offrir une expérience unifiée web + mobile.",
+                technologies: ["React Native", "Express", "MongoDB Atlas", "React"],
+                images: ["photo_AfricaFood_App/Design%20sans%20titre.png"],
+                features: [
+                    "Application mobile + web",
+                    "Backend Express structuré",
+                    "Base de données MongoDB Atlas",
+                    "Architecture évolutive",
+                    "UX adaptée au mobile"
+                ],
+            },
+            4: {
                 title: "Comparateur de prix de billets de Bus",
-                description: "Application Web permettant de comparer les prix des billets de bus entre différentes compagnies. Ce projet a été développé pour simplifier le processus de recherche et de réservation des billets de bus, en offrant une comparaison en temps réel des prix et des horaires.",
+                description: "Application Web permettant de comparer les prix des billets de bus entre différentes compagnies, avec comparaison en temps réel.",
+                role: "Full-stack & Intégration API",
+                objective: "Simplifier la recherche et la réservation multi-compagnies.",
                 technologies: ["Laravel", "PHP", "MySQL", "JavaScript", "API Integration"],
-                images: ["comparateurTicket.png", "comparateurTicket1.png", "comparateurTicket2.png", "comparateurTicket3.png","comparateurTicket4.png","comparateurTicket5.png"],
+                images: ["comparateurTicket.png", "comparateurTicket1.png", "comparateurTicket2.png", "comparateurTicket3.png", "comparateurTicket4.png", "comparateurTicket5.png"],
                 features: [
                     "Comparaison en temps réel des prix",
                     "Interface utilisateur intuitive",
                     "Système de filtres avancés",
-                    "Intégration avec plusieurs API de compagnies de bus",
-                    "Système de réservation intégré"
+                    "Intégration avec plusieurs API",
+                    "Réservation intégrée"
                 ],
-                demoUrl: "#",
-                githubUrl: "#"
             },
-            4: {
+            5: {
                 title: "Système de Gestion d'Entreprise",
-                description: "Application complète de gestion financière et de stock pour entreprises. Cette plateforme offre une solution tout-en-un pour la gestion des finances, l'inventaire et le suivi des opérations commerciales. Développée avec les technologies modernes, elle assure une expérience utilisateur fluide et une gestion efficace des données.",
+                description: "Plateforme de gestion financière et de stock avec tableau de bord analytique et suivi en temps réel.",
+                role: "Front-end & Back-end",
+                objective: "Centraliser la finance et le stock dans un outil unique.",
                 technologies: ["React", "Node.js", "MongoDB", "Express", "Material-UI"],
-                images: ["gestionentreprise.png", "gestionentreprise1.png", "gestionentreprise2.png"],
+                images: ["gestionentreprise.png", "gestionentreprise1.png", "gestionentreprise2.png", "gestionentreprise3.png"],
                 features: [
                     "Gestion financière complète (revenus, dépenses, factures)",
                     "Suivi des stocks en temps réel avec alertes",
@@ -1069,96 +1872,198 @@
                     "Rapports financiers automatisés",
                     "Interface responsive et intuitive"
                 ],
-                demoUrl: "https://gestiondashboard.ct.ws/",
-                githubUrl: "#",
             },
-            5: {
+            6: {
                 title: "Plateforme pour BS INTERNATIONAL",
-                description: "plateforme pour permettre a l'entreprise BS international de montrer ses services et d'avoir un site web pour leurs clients",
+                description: "Site vitrine pour permettre à l'entreprise BS International de présenter ses services et ses pôles.",
+                role: "UI/UX & Front-end",
+                objective: "Mettre en valeur l'offre et générer des contacts.",
                 technologies: ["HTML", "CSS", "Tailwind CSS", "JavaScript"],
-                images: ["bsinternational.png", "bsinternational1.png", "bsinternational2.png","bsinternational3.png"],
+                images: ["bsinternational.png", "bsinternational1.png", "bsinternational2.png", "bsinternational3.png"],
                 features: [
-                    "montrer les services de l'entreprise",
-                    "BS INTERNATIONAL SHOLAR pour les etudiants",
+                    "Présentation claire des services de l'entreprise",
+                    "BS INTERNATIONAL SHOLAR pour les étudiants",
                     "BS INTERNATIONAL BUSINESS pour les entrepreneurs",
-                    "BS INTERNATIONAL EXPRESS pour l'importation et l'exportation",
+                    "BS INTERNATIONAL EXPRESS pour l'importation et l'exportation"
                 ],
-                demoUrl: "https://bsinternational.netlify.app/home",
-                githubUrl: "#"
+                demoUrl: "https://bsinternational.com",
             }
         };
 
         const projectShowcase = document.getElementById('projectShowcase');
         const projectDetails = document.getElementById('projectDetails');
         const closeBtn = document.querySelector('.close-btn');
+        
+        let currentCarouselIndex = 0;
+        let currentProjectImages = [];
 
-        document.querySelectorAll('.view-project-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
-                const projectId = this.getAttribute('data-project');
-                const project = projectsData[projectId];
+        function openProject(projectId) {
+            const project = projectsData[projectId];
+            if (!project) {
+                return;
+            }
+            
+            currentProjectImages = project.images;
+            currentCarouselIndex = 0;
+
+            projectDetails.innerHTML = `
+                <h3 class="text-3xl font-bold mb-4">${project.title}</h3>
+                <p class="text-gray-600 dark:text-gray-300 mb-6">${project.description}</p>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <div class="glass p-4 rounded-xl">
+                        <p class="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1">Rôle</p>
+                        <p class="font-medium">${project.role}</p>
+                    </div>
+                    <div class="glass p-4 rounded-xl">
+                        <p class="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-1">Objectif</p>
+                        <p class="font-medium">${project.objective}</p>
+                    </div>
+                </div>
                 
-                // Populate project details
-                projectDetails.innerHTML = `
-                    <h3 class="text-3xl font-bold mb-4">${project.title}</h3>
-                    <p class="text-gray-600 dark:text-gray-300 mb-6">${project.description}</p>
-                    
-                    <div class="mb-6">
-                        <h4 class="text-xl font-semibold mb-2">Fonctionnalités clés</h4>
-                        <ul class="list-disc pl-5 space-y-2 text-gray-600 dark:text-gray-300">
-                            ${project.features.map(feat => `<li>${feat}</li>`).join('')}
-                        </ul>
-                    </div>
-                    
-                    <div class="mb-6">
-                        <h4 class="text-xl font-semibold mb-2">Technologies utilisées</h4>
-                        <div class="flex flex-wrap gap-2">
-                            ${project.technologies.map(tech => `
-                                <span class="tech-badge bg-primary-light dark:bg-primary-dark bg-opacity-20">
-                                    ${tech}
-                                </span>
-                            `).join('')}
-                        </div>
-                    </div>
-                    
-                    <div class="project-gallery">
-                        ${project.images.map(img => `
-                            <img src="${img}" alt="${project.title}" class="cursor-pointer">
+                <div class="mb-6">
+                    <h4 class="text-xl font-semibold mb-2">Fonctionnalités clés</h4>
+                    <ul class="list-disc pl-5 space-y-2 text-gray-600 dark:text-gray-300">
+                        ${project.features.map(feat => `<li>${feat}</li>`).join('')}
+                    </ul>
+                </div>
+                
+                <div class="mb-6">
+                    <h4 class="text-xl font-semibold mb-2">Technologies utilisées</h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${project.technologies.map(tech => `
+                            <span class="tech-badge bg-primary-light dark:bg-primary-dark bg-opacity-20">
+                                ${tech}
+                            </span>
                         `).join('')}
                     </div>
-                    
-                    <div class="flex space-x-4 mt-6">
-                        <a href="${project.demoUrl}" class="px-6 py-2 bg-primary-light dark:bg-primary-dark text-white rounded-lg font-medium hover:bg-opacity-90 transition-colors">
+                </div>
+                
+                <div class="mb-6">
+                    <h4 class="text-xl font-semibold mb-3 flex items-center gap-2">
+                        <i class="fas fa-images text-primary-light dark:text-primary-dark"></i>
+                        Galerie du projet (${project.images.length} image${project.images.length > 1 ? 's' : ''})
+                    </h4>
+                    <div class="project-gallery">
+                        <div class="carousel-container">
+                            <img id="carouselMainImage" src="${project.images[0]}" alt="${project.title}" class="carousel-main-image" onclick="openImageZoom('${project.images[0]}')">
+                            ${project.images.length > 1 ? `
+                                <button class="carousel-nav carousel-prev" onclick="changeCarouselImage(-1)">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="carousel-nav carousel-next" onclick="changeCarouselImage(1)">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            ` : ''}
+                            <div class="carousel-counter">
+                                <span id="carouselCounter">1 / ${project.images.length}</span>
+                            </div>
+                        </div>
+                        ${project.images.length > 1 ? `
+                            <div class="carousel-thumbnails">
+                                ${project.images.map((img, index) => `
+                                    <img src="${img}" alt="Thumbnail ${index + 1}" 
+                                         class="carousel-thumbnail ${index === 0 ? 'active' : ''}" 
+                                         onclick="goToCarouselImage(${index})">
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+                
+                <div class="flex flex-wrap gap-4 mt-8">
+                    ${project.demoUrl && project.demoUrl !== "#" ? `
+                        <a href="${project.demoUrl}" target="_blank" rel="noopener noreferrer" class="px-8 py-3 bg-gradient-to-r from-primary-light to-primary-dark text-white rounded-2xl font-bold hover:shadow-2xl transition-all transform hover:scale-105">
                             <i class="fas fa-external-link-alt mr-2"></i> Voir la démo
                         </a>
-                        <a href="${project.githubUrl}" class="px-6 py-2 glass rounded-lg font-medium hover:bg-opacity-90 transition-colors">
+                    ` : ''}
+                    ${project.githubUrl && project.githubUrl !== "#" ? `
+                        <a href="${project.githubUrl}" target="_blank" rel="noopener noreferrer" class="px-8 py-3 glass-strong rounded-2xl font-bold hover:shadow-2xl transition-all transform hover:scale-105">
                             <i class="fab fa-github mr-2"></i> Code source
                         </a>
-                    </div>
-                `;
-                
-                // Show the showcase
-                projectShowcase.classList.add('active');
-                
-                // Add click event to gallery images
-                document.querySelectorAll('.project-gallery img').forEach(img => {
-                    img.addEventListener('click', function() {
-                        // Create a modal for the clicked image
-                        const modal = document.createElement('div');
-                        modal.className = 'fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center';
-                        modal.innerHTML = `
-                            <div class="relative max-w-4xl w-full">
-                                <img src="${this.src}" alt="Project image" class="w-full h-auto max-h-[90vh] object-contain">
-                                <button class="absolute top-4 right-4 text-white text-3xl">&times;</button>
-                            </div>
-                        `;
-                        
-                        modal.querySelector('button').addEventListener('click', () => {
-                            modal.remove();
-                        });
-                        
-                        document.body.appendChild(modal);
-                    });
-                });
+                    ` : ''}
+                </div>
+            `;
+            
+            projectShowcase.classList.add('active');
+        }
+        
+        function changeCarouselImage(direction) {
+            currentCarouselIndex += direction;
+            
+            if (currentCarouselIndex < 0) {
+                currentCarouselIndex = currentProjectImages.length - 1;
+            } else if (currentCarouselIndex >= currentProjectImages.length) {
+                currentCarouselIndex = 0;
+            }
+            
+            updateCarousel();
+        }
+        
+        function goToCarouselImage(index) {
+            currentCarouselIndex = index;
+            updateCarousel();
+        }
+        
+        function updateCarousel() {
+            const mainImage = document.getElementById('carouselMainImage');
+            const counter = document.getElementById('carouselCounter');
+            const thumbnails = document.querySelectorAll('.carousel-thumbnail');
+            
+            if (mainImage && currentProjectImages[currentCarouselIndex]) {
+                mainImage.src = currentProjectImages[currentCarouselIndex];
+                mainImage.onclick = () => openImageZoom(currentProjectImages[currentCarouselIndex]);
+            }
+            
+            if (counter) {
+                counter.textContent = `${currentCarouselIndex + 1} / ${currentProjectImages.length}`;
+            }
+            
+            thumbnails.forEach((thumb, index) => {
+                thumb.classList.toggle('active', index === currentCarouselIndex);
+            });
+        }
+        
+        function openImageZoom(imageSrc) {
+            const modal = document.getElementById('imageZoomModal');
+            const img = document.getElementById('zoomedImage');
+            img.src = imageSrc;
+            modal.classList.add('active');
+        }
+        
+        function closeImageZoom() {
+            const modal = document.getElementById('imageZoomModal');
+            modal.classList.remove('active');
+        }
+        
+        // Close zoom on ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeImageZoom();
+            }
+        });
+
+        document.querySelectorAll('.view-project-btn').forEach(btn => {
+            btn.addEventListener('click', function(event) {
+                event.stopPropagation();
+                const projectId = this.getAttribute('data-project');
+                openProject(projectId);
+            });
+        });
+
+        document.querySelectorAll('.project-card').forEach(card => {
+            card.setAttribute('role', 'button');
+            card.setAttribute('tabindex', '0');
+            card.addEventListener('click', () => {
+                const projectId = card.getAttribute('data-project');
+                openProject(projectId);
+            });
+            card.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    const projectId = card.getAttribute('data-project');
+                    openProject(projectId);
+                }
             });
         });
 
@@ -1171,49 +2076,6 @@
                 projectShowcase.classList.remove('active');
             }
         });
-
-        // Initialize EmailJS
-        (function() {
-            emailjs.init("5o_7eZxNqVVuPXh-D"); // Clé publique EmailJS
-        })();
-
-        // Contact form submission
-        const contactForm = document.getElementById('contactForm');
-        const formSuccess = document.getElementById('formSuccess');
-        const formError = document.getElementById('formError');
-        
-        if (contactForm) {
-            contactForm.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Récupérer les valeurs du formulaire
-                const formData = {
-                    name: document.getElementById('name').value,
-                    email: document.getElementById('email').value,
-                    subject: document.getElementById('subject').value,
-                    message: document.getElementById('message').value
-                };
-                
-                // Envoyer l'email via EmailJS
-                emailjs.send('service_qk018mt', 'template_8ubbjt9', formData)
-                    .then(function() {
-                        // Succès
-                        contactForm.reset();
-                        formSuccess.classList.remove('hidden');
-                        formError.classList.add('hidden');
-                        
-                        // Cacher le message de succès après 5 secondes
-                        setTimeout(() => {
-                            formSuccess.classList.add('hidden');
-                        }, 5000);
-                    }, function(error) {
-                        // Erreur
-                        formError.classList.remove('hidden');
-                        formSuccess.classList.add('hidden');
-                        console.error('Erreur:', error);
-                    });
-            });
-        }
 
         // Animate skill bars on scroll
         function animateSkillBars() {
