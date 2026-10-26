@@ -3,8 +3,53 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portfolio 3D - BAMBARA VICTORIEN MARIE LANDRY</title>
-    <meta name="description" content="Portfolio interactif et immersif présentant mes compétences et projets">
+    <title>BAMBARA Victorien Marie Landry — Ingénieur cybersécurité (5e année) | Stage PFE 2026</title>
+    <meta name="description" content="Étudiant-ingénieur en cybersécurité en 5e année à HESTIM (Casablanca). Sécurité offensive et défensive : pentest, SOC, SIEM, threat hunting, CTI et DevSecOps. En recherche d'un stage PFE 2026. Également développeur full-stack.">
+    <meta name="author" content="BAMBARA Victorien Marie Landry">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://landrybportfolio.netlify.app/">
+    <meta property="og:locale" content="fr_FR">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://landrybportfolio.netlify.app/">
+    <meta property="og:title" content="BAMBARA Victorien Marie Landry — Ingénieur cybersécurité (5e année)">
+    <meta property="og:description" content="Sécurité offensive et défensive, pentest, SOC/SIEM, threat hunting et DevSecOps. En recherche d'un stage PFE 2026. Également développeur full-stack.">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="BAMBARA Victorien Marie Landry — Ingénieur cybersécurité (5e année)">
+    <meta name="twitter:description" content="Sécurité offensive et défensive · également développeur full-stack. Stage PFE 2026.">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "BAMBARA Victorien Marie Landry",
+        "jobTitle": "Étudiant-ingénieur en cybersécurité (5e année)",
+        "email": "mailto:landrybambara04@gmail.com",
+        "telephone": "+212625522843",
+        "url": "https://landrybportfolio.netlify.app/",
+        "address": {
+            "@type": "PostalAddress",
+            "addressLocality": "Casablanca",
+            "addressCountry": "MA"
+        },
+        "alumniOf": {
+            "@type": "CollegeOrUniversity",
+            "name": "HESTIM"
+        },
+        "sameAs": [
+            "https://www.linkedin.com/in/landry-bambara",
+            "https://github.com/Small-Danger"
+        ],
+        "knowsAbout": [
+            "Cybersécurité",
+            "Test d'intrusion",
+            "SOC",
+            "SIEM",
+            "Threat hunting",
+            "CTI",
+            "DevSecOps",
+            "Développement full-stack"
+        ]
+    }
+    </script>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -670,6 +715,92 @@
             transition: width 0.1s ease;
             box-shadow: 0 0 10px rgba(99, 102, 241, 0.5);
         }
+
+        html {
+            scroll-padding-top: 6.5rem;
+        }
+
+        .site-nav {
+            max-width: calc(100vw - 1rem);
+        }
+
+        .site-nav-track {
+            scrollbar-width: none;
+            -ms-overflow-style: none;
+        }
+
+        .site-nav-track::-webkit-scrollbar {
+            display: none;
+        }
+
+        .site-nav a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.2rem;
+            min-width: 4.25rem;
+            padding: 0.45rem 0.7rem;
+            border-radius: 9999px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            line-height: 1;
+            white-space: nowrap;
+            flex: 0 0 auto;
+        }
+
+        .site-nav a i {
+            font-size: 0.95rem;
+        }
+
+        @media (min-width: 768px) and (max-width: 1180px) {
+            .site-nav a span {
+                display: none;
+            }
+
+            .site-nav a {
+                min-width: 2.6rem;
+                padding: 0.6rem;
+            }
+        }
+
+        .project-cover {
+            height: 240px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background:
+                radial-gradient(circle at 18% 20%, rgba(99, 102, 241, 0.55), transparent 55%),
+                radial-gradient(circle at 82% 80%, rgba(16, 185, 129, 0.4), transparent 50%),
+                linear-gradient(160deg, #1e293b, #0f172a);
+        }
+
+        .project-cover i {
+            font-size: 4.25rem;
+            color: rgba(255, 255, 255, 0.92);
+        }
+
+        .domain-card {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        @media (max-width: 767px) {
+            html {
+                scroll-padding-top: 1rem;
+                scroll-padding-bottom: 6.5rem;
+            }
+
+            body {
+                padding-bottom: 5.75rem;
+            }
+
+            section {
+                scroll-snap-align: none;
+            }
+        }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-800 dark:bg-dark-900 dark:text-gray-200 transition-colors duration-300">
@@ -706,25 +837,39 @@
     </button>
 
     <!-- Navigation -->
-    <nav class="fixed bottom-6 md:bottom-auto md:top-6 left-1/2 transform -translate-x-1/2 z-50">
-        <div class="flex space-x-2 p-2 rounded-full glass shadow-lg">
-            <a href="#home" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Accueil">
+    <nav class="site-nav fixed bottom-3 md:bottom-auto md:top-6 left-1/2 transform -translate-x-1/2 z-50" aria-label="Navigation principale">
+        <div class="site-nav-track flex gap-1 p-1.5 rounded-full glass shadow-lg overflow-x-auto">
+            <a href="#home" class="hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Accueil">
                 <i class="fas fa-home"></i>
+                <span>Accueil</span>
             </a>
-            <a href="#about" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="A propos">
+            <a href="#about" class="hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="À propos">
                 <i class="fas fa-user"></i>
+                <span>À propos</span>
             </a>
-            <a href="#impact" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Impact">
-                <i class="fas fa-rocket"></i>
+            <a href="#cyber" class="hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Cybersécurité">
+                <i class="fas fa-shield-alt"></i>
+                <span>Cybersécurité</span>
             </a>
-            <a href="#projects" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Projets">
+            <a href="#cyber-projects" class="hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Projets cyber">
+                <i class="fas fa-user-secret"></i>
+                <span>Projets cyber</span>
+            </a>
+            <a href="#development" class="hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Développement">
                 <i class="fas fa-code"></i>
+                <span>Développement</span>
             </a>
-            <a href="#skills" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Competences">
+            <a href="#entrepreneuriat" class="hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Entrepreneuriat">
+                <i class="fas fa-briefcase"></i>
+                <span>Entrepreneuriat</span>
+            </a>
+            <a href="#skills" class="hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Compétences">
                 <i class="fas fa-cogs"></i>
+                <span>Compétences</span>
             </a>
-            <a href="#contact" class="p-3 rounded-full hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Contact">
+            <a href="#contact" class="hover:bg-primary-light dark:hover:bg-primary-dark hover:text-white transition-colors" aria-label="Contact">
                 <i class="fas fa-envelope"></i>
+                <span>Contact</span>
             </a>
         </div>
     </nav>
@@ -735,7 +880,7 @@
             <div class="flex flex-wrap justify-center gap-3 mb-8 fade-in">
                 <span class="badge-soft glass pulse-glow">
                     <i class="fas fa-bolt text-secondary-light dark:text-secondary-dark"></i>
-                    Disponible pour opportunités 2026
+                    Disponible — PFE 2026
                 </span>
                 <span class="badge-soft glass">
                     <i class="fas fa-map-marker-alt text-primary-light dark:text-primary-dark"></i>
@@ -743,49 +888,50 @@
                 </span>
                 <span class="badge-soft glass">
                     <i class="fas fa-shield-alt text-primary-light dark:text-primary-dark"></i>
-                    Analyste junior en cybersécurité
+                    Cybersécurité · Full-stack
                 </span>
             </div>
-            <h1 class="text-5xl md:text-7xl lg:text-8xl font-bold mb-6 glow-text fade-in delay-100">
-                <span class="text-primary-light dark:text-primary-dark">Bonjour</span> 
+            <h1 class="text-3xl sm:text-4xl md:text-5xl xl:text-6xl font-bold mb-6 glow-text fade-in delay-100 leading-tight max-w-full px-2">
+                <span class="text-primary-light dark:text-primary-dark">Bonjour</span>,
                 <span class="wave">👋</span><br>
-                Je suis <span class="gradient-text">BAMBARA VICTORIEN MARIE LANDRY</span>
+                je suis <span class="gradient-text">BAMBARA</span><br>
+                <span class="gradient-text">Victorien Marie Landry</span>
             </h1>
-            <h2 class="text-2xl md:text-3xl lg:text-4xl mb-6 glass-strong inline-block px-8 py-4 rounded-2xl fade-in delay-200">
-                Cybersécurité | Développeur Full-Stack
+            <h2 class="text-lg sm:text-xl md:text-2xl lg:text-3xl mb-4 font-bold fade-in delay-200 leading-snug px-2">
+                Ingénieur cybersécurité (5e année) — en recherche d'un stage PFE 2026
             </h2>
-            <p class="max-w-4xl mx-auto text-lg md:text-xl text-gray-700 dark:text-gray-200 leading-relaxed mb-4 fade-in delay-300">
-                J'aide les entreprises à <strong class="text-primary-light dark:text-primary-dark">sécuriser</strong> leurs systèmes et à livrer des <strong class="text-secondary-light dark:text-secondary-dark">expériences web performantes</strong>, fiables et maintenables.
+            <p class="text-base md:text-lg mb-6 glass-strong inline-block px-6 md:px-8 py-3 md:py-4 rounded-2xl fade-in delay-200">
+                Sécurité offensive &amp; défensive · également développeur full-stack
             </p>
-            <p class="max-w-3xl mx-auto text-base text-gray-600 dark:text-gray-300 mb-10 fade-in delay-400">
-                Transition en cours : profil full-stack vers <strong>Analyste junior en cybersécurité / SOC</strong>
+            <p class="max-w-4xl mx-auto text-lg md:text-xl text-gray-700 dark:text-gray-200 leading-relaxed mb-10 fade-in delay-300">
+                Ingénieur cybersécurité en dernière année à HESTIM. J'interviens aussi bien en sécurité offensive (pentest) qu'en défense (SOC, SIEM, threat hunting), avec une double casquette de développeur full-stack. En recherche d'un stage PFE 2026.
             </p>
-            <div class="flex flex-wrap justify-center gap-5 mt-12 fade-in delay-500">
-                <a href="#projects" class="group px-10 py-4 bg-gradient-to-r from-primary-light to-primary-dark text-white rounded-2xl font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 hover:-translate-y-1">
-                    <i class="fas fa-code mr-2 group-hover:rotate-12 transition-transform"></i>
-                    Découvrir mes projets
+            <div class="flex flex-wrap justify-center gap-4 md:gap-5 mt-4 fade-in delay-500">
+                <a href="#cyber-projects" class="group px-6 md:px-10 py-4 bg-gradient-to-r from-primary-light to-primary-dark text-white rounded-2xl font-bold text-base md:text-lg hover:shadow-2xl transition-all transform hover:scale-105 hover:-translate-y-1">
+                    <i class="fas fa-user-secret mr-2 group-hover:rotate-12 transition-transform"></i>
+                    Voir mes projets cyber
                 </a>
-                <a href="CV.pdf" class="px-10 py-4 glass-strong rounded-2xl font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 hover:-translate-y-1">
+                <a href="CV.pdf" class="px-6 md:px-10 py-4 glass-strong rounded-2xl font-bold text-base md:text-lg hover:shadow-2xl transition-all transform hover:scale-105 hover:-translate-y-1">
                     <i class="fas fa-download mr-2"></i>
                     Télécharger mon CV
                 </a>
-                <a href="#contact" class="px-10 py-4 bg-gradient-to-r from-secondary-light to-secondary-dark text-white rounded-2xl font-bold text-lg hover:shadow-2xl transition-all transform hover:scale-105 hover:-translate-y-1">
+                <a href="#contact" class="px-6 md:px-10 py-4 bg-gradient-to-r from-secondary-light to-secondary-dark text-white rounded-2xl font-bold text-base md:text-lg hover:shadow-2xl transition-all transform hover:scale-105 hover:-translate-y-1">
                     <i class="fas fa-envelope mr-2"></i>
                     Me contacter
                 </a>
             </div>
             <div class="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-16 max-w-5xl mx-auto fade-in delay-600">
                 <div class="stat-card glass">
-                    <p class="text-4xl font-black text-primary-light dark:text-primary-dark mb-2">6+</p>
-                    <p class="text-base font-medium text-gray-700 dark:text-gray-200">Projets complets livrés</p>
+                    <p class="text-4xl font-black text-primary-light dark:text-primary-dark mb-2">5e</p>
+                    <p class="text-base font-medium text-gray-700 dark:text-gray-200">Année à HESTIM — cybersécurité</p>
                 </div>
                 <div class="stat-card glass">
-                    <p class="text-4xl font-black text-secondary-light dark:text-secondary-dark mb-2">10+</p>
-                    <p class="text-base font-medium text-gray-700 dark:text-gray-200">Technologies maîtrisées</p>
+                    <p class="text-4xl font-black text-secondary-light dark:text-secondary-dark mb-2">PFE</p>
+                    <p class="text-base font-medium text-gray-700 dark:text-gray-200">Stage recherché en 2026</p>
                 </div>
                 <div class="stat-card glass">
-                    <p class="text-4xl font-black text-primary-light dark:text-primary-dark mb-2">4</p>
-                    <p class="text-base font-medium text-gray-700 dark:text-gray-200">Années d'études spécialisées</p>
+                    <p class="text-4xl font-black text-primary-light dark:text-primary-dark mb-2">6</p>
+                    <p class="text-base font-medium text-gray-700 dark:text-gray-200">Projets web full-stack</p>
                 </div>
             </div>
         </div>
@@ -794,69 +940,6 @@
             <a href="#about" class="text-3xl text-primary-light dark:text-primary-dark">
                 <i class="fas fa-chevron-down"></i>
             </a>
-        </div>
-    </section>
-
-    <!-- Impact Section -->
-    <section id="impact" class="min-h-screen py-20 flex items-center relative">
-        <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-16 text-center fade-in">
-                Ce que j'apporte aux <span class="text-primary-light dark:text-primary-dark">équipes</span>
-            </h2>
-            
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-                <div class="glass-strong p-8 rounded-3xl fade-in delay-100">
-                    <h3 class="text-2xl font-semibold mb-4">Impact immédiat</h3>
-                    <p class="mb-6 text-gray-600 dark:text-gray-300">
-                        Je transforme des besoins métiers en interfaces claires et en backends fiables, avec une attention particulière à la sécurité et à la qualité.
-                    </p>
-                    <ul class="space-y-3 text-gray-600 dark:text-gray-300">
-                        <li class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-secondary-light dark:text-secondary-dark mt-1"></i>
-                            Développement full-stack rapide et structuré
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-secondary-light dark:text-secondary-dark mt-1"></i>
-                            UX/UI pensée pour convertir et fidéliser
-                        </li>
-                        <li class="flex items-start gap-3">
-                            <i class="fas fa-check-circle text-secondary-light dark:text-secondary-dark mt-1"></i>
-                            Sécurité applicative et bonnes pratiques réseau
-                        </li>
-                    </ul>
-                    <div class="flex flex-wrap gap-4 mt-8">
-                        <a href="CV.pdf" class="px-6 py-3 bg-primary-light dark:bg-primary-dark text-white rounded-full font-semibold hover:bg-opacity-90 transition-all">
-                            Voir le CV
-                        </a>
-                        <a href="#contact" class="px-6 py-3 glass rounded-full font-semibold hover:bg-opacity-90 transition-all">
-                            Échanger maintenant
-                        </a>
-                    </div>
-                </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 fade-in delay-200">
-                    <div class="glass p-6 rounded-2xl">
-                        <p class="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Étape 01</p>
-                        <h4 class="text-lg font-semibold mb-2">Découverte</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300">Compréhension des objectifs, contraintes et utilisateurs.</p>
-                    </div>
-                    <div class="glass p-6 rounded-2xl">
-                        <p class="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Étape 02</p>
-                        <h4 class="text-lg font-semibold mb-2">Conception</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300">Wireframes, UI system et parcours optimisés.</p>
-                    </div>
-                    <div class="glass p-6 rounded-2xl">
-                        <p class="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Étape 03</p>
-                        <h4 class="text-lg font-semibold mb-2">Implémentation</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300">Développement itératif, tests et qualité.</p>
-                    </div>
-                    <div class="glass p-6 rounded-2xl">
-                        <p class="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Étape 04</p>
-                        <h4 class="text-lg font-semibold mb-2">Livraison</h4>
-                        <p class="text-sm text-gray-600 dark:text-gray-300">Mise en ligne, optimisation et suivi.</p>
-                    </div>
-                </div>
-            </div>
         </div>
     </section>
 
@@ -871,25 +954,18 @@
                 <div class="glass p-8 rounded-3xl fade-in delay-100">
                     <h3 class="text-2xl font-semibold mb-4">Qui suis-je ?</h3>
                     <p class="mb-6">
-                        Étudiant en 4ème année à HESTIM, je me spécialise en cybersécurité et j'acquiers des connaissances en réseaux, protocoles de sécurité et fondamentaux de la sécurité informatique.
+                        Étudiant-ingénieur en dernière année de cybersécurité à HESTIM (Casablanca). Compétences concrètes en pentest, SOC/SIEM, threat hunting, CTI et DevSecOps, acquises sur des projets réels et un stage de conception d'une plateforme SaaS de cybersécurité déployée en production.
                     </p>
                     <p class="mb-6">
-                        En 3ème année, j'ai suivi un parcours en développement web et mené plusieurs projets full-stack. Aujourd'hui, je combine ces acquis avec la sécurité pour concevoir des solutions fiables et performantes.
-                    </p>
-                    <p class="mb-6">
-                        Objectif : évoluer vers un poste d'Analyste junior en cybersécurité / SOC, en capitalisant sur mon expérience web et ma formation sécurité.
+                        Profil hybride : je sais aussi concevoir et sécuriser des applications web de bout en bout, et je dirige une petite entreprise — ce qui me donne une forte culture produit et gestion de projet.
                     </p>
                     <div class="flex flex-wrap gap-2 mt-6">
-                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Cybersécurité</span>
-                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Réseaux</span>
-                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Sécurité réseau</span>
-                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Laravel</span>
-                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">PHP</span>
-                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">React</span>
-                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Three.js</span>
-                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Photoshop</span>
-                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Illustrator</span>
-                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Canva</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Pentest</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">SOC / SIEM</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Threat hunting</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">CTI</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">DevSecOps</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">Full-stack</span>
                     </div>
                 </div>
                 
@@ -905,7 +981,7 @@
                                 </div>
                                 <div class="pb-8">
                                     <p class="text-sm text-gray-500 dark:text-gray-400">2025 - Présent</p>
-                                    <h4 class="font-semibold mb-2">4ème année – Spécialisation Cybersécurité</h4>
+                                    <h4 class="font-semibold mb-2">5ème année – Spécialisation Cybersécurité</h4>
                                     <p class="text-gray-600 dark:text-gray-300">HESTIM, Casablanca</p>
                                 </div>
                             </div>
@@ -954,15 +1030,235 @@
         </div>
     </section>
 
-    <!-- Projects Section -->
-    <section id="projects" class="min-h-screen py-20 relative">
+    <!-- Cybersecurity Section -->
+    <section id="cyber" class="min-h-screen py-20 relative">
         <div class="container mx-auto px-6">
-            <h2 class="text-4xl font-bold mb-16 text-center fade-in">
-                Mes <span class="text-primary-light dark:text-primary-dark">projets</span>
+            <p class="text-center text-sm font-semibold uppercase tracking-widest text-primary-light dark:text-primary-dark mb-4 fade-in">Cœur du profil</p>
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-center fade-in">
+                <span class="text-primary-light dark:text-primary-dark">Cybersécurité</span>
             </h2>
-            
+            <p class="text-center text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-16 fade-in delay-100">
+                Profil polyvalent, offensif et défensif : pentest, SOC, threat intelligence, DevSecOps, cryptographie et réseaux.
+            </p>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+                <article class="domain-card glass-strong p-8 rounded-3xl card-hover fade-in delay-100">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-light to-primary-dark text-white flex items-center justify-center text-2xl mb-5">
+                        <i class="fas fa-user-secret"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Sécurité offensive / Pentest</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-5">OWASP Top 10, tests d'intrusion web et système, CTF jusqu'au root, rapports d'audit.</p>
+                    <p class="text-xs uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-2">Outils</p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Burp Suite</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">SQLMap</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Metasploit (module custom)</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Nmap</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Hydra</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Gobuster</span>
+                    </div>
+                </article>
+
+                <article class="domain-card glass-strong p-8 rounded-3xl card-hover fade-in delay-200">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-secondary-light to-secondary-dark text-white flex items-center justify-center text-2xl mb-5">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Sécurité défensive / SOC &amp; Blue Team</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-5">SIEM/XDR Wazuh (FIM, Active Response), MISP, MITRE ATT&amp;CK, pipeline de logs Vector/Elasticsearch, méthodologie ACH, conformité NIS2.</p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Wazuh</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MISP</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MITRE ATT&amp;CK</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Vector</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Elasticsearch</span>
+                    </div>
+                </article>
+
+                <article class="domain-card glass-strong p-8 rounded-3xl card-hover fade-in delay-300">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-light to-secondary-dark text-white flex items-center justify-center text-2xl mb-5">
+                        <i class="fas fa-search"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Threat Intelligence &amp; Threat Hunting</h3>
+                    <p class="text-gray-600 dark:text-gray-300">Cycle du renseignement, pipeline CTI, analyse d'acteur (APT HAFNIUM) assistée par IA multi-agents (CrewAI), scoring, hypothèses de chasse.</p>
+                </article>
+
+                <article class="domain-card glass-strong p-8 rounded-3xl card-hover fade-in delay-400">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-indigo-500 to-primary-dark text-white flex items-center justify-center text-2xl mb-5">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">DevSecOps</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-5">CI/CD sécurisée (GitHub Actions), SAST/DAST (OWASP ZAP, Nikto, Semgrep, TruffleHog), Docker, Ansible, Terraform.</p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">GitHub Actions</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">OWASP ZAP</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Semgrep</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Docker</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Ansible</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Terraform</span>
+                    </div>
+                </article>
+
+                <article class="domain-card glass-strong p-8 rounded-3xl card-hover fade-in delay-500 md:col-span-2 xl:col-span-2">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-slate-600 to-primary-light text-white flex items-center justify-center text-2xl mb-5">
+                        <i class="fas fa-network-wired"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Crypto &amp; réseaux</h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-5">Mises à jour sécurisées signées (OTA), MITM, TLS/HTTPS, Wireshark. Sécurité mobile (MobSF), forensic Windows, cloud AWS (IAM/VPC/S3).</p>
+                    <div class="flex flex-wrap gap-2 mt-auto">
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">OTA signé</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">TLS/HTTPS</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Wireshark</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MobSF</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Forensic Windows</span>
+                        <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">AWS</span>
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- Cyber Projects Section -->
+    <section id="cyber-projects" class="min-h-screen py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-center fade-in">
+                Projets <span class="text-primary-light dark:text-primary-dark">cyber</span>
+            </h2>
+            <p class="text-center text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-4 fade-in delay-100">
+                Stages, capstone et labs : de la posture de sécurité en production au threat hunting.
+            </p>
+            <p class="text-center text-sm text-gray-500 dark:text-gray-400 mb-12">
+                Cliquez sur une carte pour voir le rôle, la période et le détail.
+            </p>
+
+            <div class="grid project-grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="project-card project-card-modern tilt-effect rounded-2xl overflow-hidden fade-in delay-100" data-project="c1">
+                    <div class="project-cover">
+                        <div class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">Stage</div>
+                        <div class="live-badge">EN PRODUCTION</div>
+                        <i class="fas fa-cloud"></i>
+                        <div class="project-overlay">
+                            <button class="view-project-btn project-cta px-4 py-2 bg-white/90 text-gray-900 rounded-full font-semibold hover:bg-white transition-colors" data-project="c1">
+                                Découvrir le projet
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6 project-body">
+                        <h3 class="text-xl font-semibold">BS Security (CSPM)</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Mai – juillet 2026</p>
+                        <p class="text-gray-600 dark:text-gray-300 project-description">Plateforme SaaS de gestion continue de la posture de sécurité pour PME. Backend Django multi-tenant, agent Windows, frontend Next.js, déployée sur Railway.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Django</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Next.js</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">CSPM</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">SaaS</span>
+                        </div>
+                        <div class="project-footer">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="c1">
+                                <i class="fas fa-eye mr-1"></i> Voir le cas complet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card project-card-modern tilt-effect rounded-2xl overflow-hidden fade-in delay-200" data-project="c2">
+                    <div class="project-cover">
+                        <div class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">Capstone S9</div>
+                        <i class="fas fa-key"></i>
+                        <div class="project-overlay">
+                            <button class="view-project-btn project-cta px-4 py-2 bg-white/90 text-gray-900 rounded-full font-semibold hover:bg-white transition-colors" data-project="c2">
+                                Découvrir le projet
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6 project-body">
+                        <h3 class="text-xl font-semibold">Secure OTA Update Pipeline</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">2026 · Responsable serveur &amp; cryptographie</p>
+                        <p class="text-gray-600 dark:text-gray-300 project-description">Chaîne de mise à jour logicielle signée pour robots, proxy MITM, scénarios d'attaque et démonstration de bout en bout.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Cryptographie</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">OTA</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Sécurité systèmes</span>
+                        </div>
+                        <div class="project-footer">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="c2">
+                                <i class="fas fa-eye mr-1"></i> Voir le cas complet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card project-card-modern tilt-effect rounded-2xl overflow-hidden fade-in delay-300" data-project="c3">
+                    <div class="project-cover">
+                        <div class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">PIC S9</div>
+                        <i class="fas fa-binoculars"></i>
+                        <div class="project-overlay">
+                            <button class="view-project-btn project-cta px-4 py-2 bg-white/90 text-gray-900 rounded-full font-semibold hover:bg-white transition-colors" data-project="c3">
+                                Découvrir le projet
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6 project-body">
+                        <h3 class="text-xl font-semibold">Threat Hunting à l'échelle africaine</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">2026–2027 · Chef de projet (équipe de 4)</p>
+                        <p class="text-gray-600 dark:text-gray-300 project-description">Pipeline CTI et threat hunting réutilisable : profil entreprise, collecte, MISP, scoring, hypothèses, chasse Wazuh et réponse. Outils libres et IA locale.</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">CTI</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Wazuh</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">MISP</span>
+                        </div>
+                        <div class="project-footer">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="c3">
+                                <i class="fas fa-eye mr-1"></i> Voir le cas complet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="project-card project-card-modern tilt-effect rounded-2xl overflow-hidden fade-in delay-400" data-project="c4">
+                    <div class="project-cover">
+                        <div class="absolute top-4 left-4 bg-black/60 text-white text-xs px-3 py-1 rounded-full">Labs</div>
+                        <i class="fas fa-flask"></i>
+                        <div class="project-overlay">
+                            <button class="view-project-btn project-cta px-4 py-2 bg-white/90 text-gray-900 rounded-full font-semibold hover:bg-white transition-colors" data-project="c4">
+                                Découvrir le projet
+                            </button>
+                        </div>
+                    </div>
+                    <div class="p-6 project-body">
+                        <h3 class="text-xl font-semibold">Labs &amp; pentest</h3>
+                        <p class="text-sm text-gray-500 dark:text-gray-400">Pratique offensive, défensive et forensic</p>
+                        <p class="text-gray-600 dark:text-gray-300 project-description">Juice Shop, DVWA, CTF DarkHole:2 jusqu'au root, MobSF, forensic Windows, labs AWS, SIEM/SOC (Wazuh, MISP).</p>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Pentest</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Blue Team</span>
+                            <span class="px-2 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-xs">Labs</span>
+                        </div>
+                        <div class="project-footer">
+                            <button class="view-project-btn text-sm font-medium hover:text-primary-light dark:hover:text-primary-dark transition-colors" data-project="c4">
+                                <i class="fas fa-eye mr-1"></i> Voir le cas complet
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Development Section -->
+    <section id="development" class="min-h-screen py-20 relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-center fade-in">
+                Développement web — projets <span class="text-primary-light dark:text-primary-dark">full-stack</span>
+            </h2>
+            <p class="text-center text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto mb-4 fade-in delay-100">
+                Je sais construire et sécuriser des applications.
+            </p>
+            <p class="text-center text-sm text-gray-500 dark:text-gray-400 max-w-3xl mx-auto mb-10">
+                Stack : Laravel/PHP, React, Next.js, Node.js/Express, Python, PostgreSQL, MySQL, MongoDB.
+            </p>
+
             <div class="flex justify-center mb-12 fade-in delay-100">
-                <div class="inline-flex rounded-full glass p-1">
+                <div class="inline-flex flex-wrap justify-center rounded-full glass p-1">
                     <button class="filter-btn px-4 py-2 rounded-full active bg-primary-light dark:bg-primary-dark text-white" data-filter="all">Tous</button>
                     <button class="filter-btn px-4 py-2 rounded-full" data-filter="web">Web</button>
                     <button class="filter-btn px-4 py-2 rounded-full" data-filter="mobile">Mobile</button>
@@ -1169,6 +1465,40 @@
         </div>
     </div>
 
+    <!-- Entrepreneurship Section -->
+    <section id="entrepreneuriat" class="min-h-screen py-20 flex items-center relative">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl md:text-5xl font-bold mb-6 text-center fade-in">
+                Entrepreneuriat — <span class="text-primary-light dark:text-primary-dark">BS International</span>
+            </h2>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-6xl mx-auto">
+                <div class="glass-strong p-8 md:p-10 rounded-3xl fade-in delay-100">
+                    <p class="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-3">Depuis 2025</p>
+                    <h3 class="text-2xl font-semibold mb-4">Fondateur et Directeur Général</h3>
+                    <p class="text-gray-600 dark:text-gray-300 leading-relaxed mb-6">
+                        Fondateur et Directeur Général de BS International (depuis 2025), une holding à 3 filiales (BS Scholar, BS Business, BS Express) active entre le Maroc et l'Afrique de l'Ouest. Je pilote la stratégie et les opérations, coordonne des équipes multi-pays et encadre des stagiaires HESTIM sur des projets web et IA. Ce rôle me donne rigueur, autonomie, gestion de projet et vision produit.
+                    </p>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">BS Scholar</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">BS Business</span>
+                        <span class="px-3 py-1 bg-primary-light dark:bg-primary-dark bg-opacity-20 rounded-full text-sm">BS Express</span>
+                    </div>
+                    <a href="https://bsinternationales.com/" target="_blank" rel="noopener noreferrer" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-primary-light to-primary-dark text-white rounded-full font-semibold hover:shadow-2xl transition-all transform hover:scale-105">
+                        <i class="fas fa-external-link-alt mr-2"></i>
+                        Voir le site BS International
+                    </a>
+                </div>
+                <div class="relative fade-in delay-200">
+                    <div class="rounded-3xl overflow-hidden shadow-2xl border border-white/10">
+                        <img src="bsinternational.png" alt="Site BS International" class="w-full h-full object-cover">
+                    </div>
+                    <div class="absolute -top-8 -right-6 w-20 h-20 bg-primary-light dark:bg-primary-dark rounded-full opacity-20 animate-float"></div>
+                    <div class="absolute -bottom-8 -left-6 w-16 h-16 bg-secondary-light dark:bg-secondary-dark rounded-full opacity-20 animate-float-reverse"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
     <!-- Skills Section -->
     <section id="skills" class="min-h-screen py-20 relative">
         <div class="container mx-auto px-6">
@@ -1176,14 +1506,72 @@
                 Mes <span class="gradient-text">Compétences</span>
             </h2>
             
-            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 mb-20">
+            <div class="grid grid-cols-1 gap-16 mb-20">
                 <div class="fade-in delay-100">
                     <h3 class="text-3xl font-bold mb-8 flex items-center gap-3">
-                        <i class="fas fa-code text-primary-light dark:text-primary-dark"></i>
-                        Technologies principales
+                        <i class="fas fa-shield-alt text-primary-light dark:text-primary-dark"></i>
+                        Cybersécurité
                     </h3>
+                    <p class="text-gray-600 dark:text-gray-300 mb-8">Offensif, défensif, DevSecOps et réseaux.</p>
                     
-                    <div class="space-y-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-8">
+                        <div class="group">
+                            <div class="flex justify-between mb-3">
+                                <span class="font-bold text-lg flex items-center gap-2">
+                                    <i class="fas fa-user-secret text-indigo-500"></i>
+                                    Sécurité offensive / Pentest
+                                </span>
+                                <span class="text-2xl font-black text-primary-light dark:text-primary-dark">88%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div class="skill-bar bg-gradient-to-r from-primary-light to-primary-dark h-4 rounded-full" style="width: 88%"></div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <div class="flex justify-between mb-3">
+                                <span class="font-bold text-lg flex items-center gap-2">
+                                    <i class="fas fa-shield-alt text-emerald-500"></i>
+                                    Sécurité défensive / SOC
+                                </span>
+                                <span class="text-2xl font-black text-secondary-light dark:text-secondary-dark">86%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div class="skill-bar bg-gradient-to-r from-secondary-light to-secondary-dark h-4 rounded-full" style="width: 86%"></div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <div class="flex justify-between mb-3">
+                                <span class="font-bold text-lg flex items-center gap-2">
+                                    <i class="fas fa-code-branch text-indigo-400"></i>
+                                    DevSecOps
+                                </span>
+                                <span class="text-2xl font-black text-primary-light dark:text-primary-dark">82%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div class="skill-bar bg-gradient-to-r from-indigo-500 to-purple-500 h-4 rounded-full" style="width: 82%"></div>
+                            </div>
+                        </div>
+                        <div class="group">
+                            <div class="flex justify-between mb-3">
+                                <span class="font-bold text-lg flex items-center gap-2">
+                                    <i class="fas fa-network-wired text-sky-500"></i>
+                                    Réseaux &amp; protocoles
+                                </span>
+                                <span class="text-2xl font-black text-primary-light dark:text-primary-dark">84%</span>
+                            </div>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div class="skill-bar bg-gradient-to-r from-sky-500 to-primary-light h-4 rounded-full" style="width: 84%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="fade-in delay-200">
+                    <h3 class="text-3xl font-bold mb-8 flex items-center gap-3">
+                        <i class="fas fa-code text-primary-light dark:text-primary-dark"></i>
+                        Développement
+                    </h3>
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-16 gap-y-8">
                         <div class="group">
                             <div class="flex justify-between mb-3">
                                 <span class="font-bold text-lg flex items-center gap-2">
@@ -1193,10 +1581,9 @@
                                 <span class="text-2xl font-black text-primary-light dark:text-primary-dark">85%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
-                                <div class="skill-bar bg-gradient-to-r from-primary-light to-primary-dark h-4 rounded-full" style="width: 85%"></div>
+                                <div class="skill-bar bg-gradient-to-r from-red-500 to-orange-500 h-4 rounded-full" style="width: 85%"></div>
                             </div>
                         </div>
-                        
                         <div class="group">
                             <div class="flex justify-between mb-3">
                                 <span class="font-bold text-lg flex items-center gap-2">
@@ -1209,7 +1596,6 @@
                                 <div class="skill-bar bg-gradient-to-r from-blue-500 to-cyan-500 h-4 rounded-full" style="width: 80%"></div>
                             </div>
                         </div>
-                        
                         <div class="group">
                             <div class="flex justify-between mb-3">
                                 <span class="font-bold text-lg flex items-center gap-2">
@@ -1222,106 +1608,34 @@
                                 <div class="skill-bar bg-gradient-to-r from-secondary-light to-secondary-dark h-4 rounded-full" style="width: 75%"></div>
                             </div>
                         </div>
-                        
                         <div class="group">
                             <div class="flex justify-between mb-3">
                                 <span class="font-bold text-lg flex items-center gap-2">
-                                    <i class="fas fa-shield-alt text-indigo-600"></i>
-                                    Réseaux & Cybersécurité
+                                    <i class="fab fa-python" style="color: #3776AB;"></i>
+                                    Python
                                 </span>
-                                <span class="text-2xl font-black text-primary-light dark:text-primary-dark">70%</span>
+                                <span class="text-2xl font-black text-primary-light dark:text-primary-dark">80%</span>
                             </div>
                             <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
-                                <div class="skill-bar bg-gradient-to-r from-indigo-600 to-purple-600 h-4 rounded-full" style="width: 70%"></div>
+                                <div class="skill-bar bg-gradient-to-r from-yellow-500 to-blue-600 h-4 rounded-full" style="width: 80%"></div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <div class="fade-in delay-200">
-                    <h3 class="text-3xl font-bold mb-8 flex items-center gap-3">
-                        <i class="fas fa-palette text-secondary-light dark:text-secondary-dark"></i>
-                        Design & Création
-                    </h3>
-                    
-                    <div class="grid grid-cols-2 md:grid-cols-3 gap-5">
-                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
-                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-blue-600">
-                                <i class="fab fa-adobe"></i>
+                        <div class="group lg:col-span-2">
+                            <div class="flex justify-between mb-3">
+                                <span class="font-bold text-lg flex items-center gap-2">
+                                    <i class="fas fa-database text-sky-600"></i>
+                                    Bases de données — PostgreSQL, MySQL, MongoDB
+                                </span>
+                                <span class="text-2xl font-black text-primary-light dark:text-primary-dark">80%</span>
                             </div>
-                            <span class="text-sm font-bold text-center">Photoshop</span>
-                        </div>
-                        
-                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
-                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-orange-600">
-                                <i class="fab fa-adobe"></i>
+                            <div class="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-4 overflow-hidden">
+                                <div class="skill-bar bg-gradient-to-r from-sky-600 to-emerald-500 h-4 rounded-full" style="width: 80%"></div>
                             </div>
-                            <span class="text-sm font-bold text-center">Illustrator</span>
-                        </div>
-                        
-                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
-                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-purple-600">
-                                <i class="fas fa-palette"></i>
-                            </div>
-                            <span class="text-sm font-bold text-center">Canva</span>
-                        </div>
-                        
-                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
-                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-pink-600">
-                                <i class="fas fa-pencil-ruler"></i>
-                            </div>
-                            <span class="text-sm font-bold text-center">Design UI/UX</span>
-                        </div>
-                        
-                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
-                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-red-600">
-                                <i class="fas fa-paint-brush"></i>
-                            </div>
-                            <span class="text-sm font-bold text-center">Graphisme</span>
-                        </div>
-                        
-                        <div class="flex flex-col items-center glass-strong p-6 rounded-2xl card-hover">
-                            <div class="w-16 h-16 mb-4 flex items-center justify-center text-4xl text-green-600">
-                                <i class="fas fa-image"></i>
-                            </div>
-                            <span class="text-sm font-bold text-center">Retouche Photo</span>
                         </div>
                     </div>
                 </div>
             </div>
             
-            <div class="mb-16 fade-in delay-300">
-                <h3 class="text-3xl font-bold mb-10 text-center flex items-center justify-center gap-3">
-                    <i class="fas fa-shield-virus text-primary-light dark:text-primary-dark"></i>
-                    Expertise Cybersécurité
-                </h3>
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 max-w-6xl mx-auto">
-                    <div class="badge-soft glass text-center py-4">
-                        <i class="fas fa-network-wired text-primary-light block mb-2 text-2xl"></i>
-                        Réseaux TCP/IP
-                    </div>
-                    <div class="badge-soft glass text-center py-4">
-                        <i class="fas fa-lock text-secondary-light block mb-2 text-2xl"></i>
-                        TLS/HTTPS
-                    </div>
-                    <div class="badge-soft glass text-center py-4">
-                        <i class="fas fa-user-shield text-primary-light block mb-2 text-2xl"></i>
-                        Auth & Accès
-                    </div>
-                    <div class="badge-soft glass text-center py-4">
-                        <i class="fas fa-bug text-red-600 block mb-2 text-2xl"></i>
-                        OWASP Top 10
-                    </div>
-                    <div class="badge-soft glass text-center py-4">
-                        <i class="fas fa-key text-yellow-600 block mb-2 text-2xl"></i>
-                        Chiffrement
-                    </div>
-                    <div class="badge-soft glass text-center py-4">
-                        <i class="fas fa-shield-check text-green-600 block mb-2 text-2xl"></i>
-                        Sécurité Apps
-                    </div>
-                </div>
-            </div>
 
             <div class="mb-16 fade-in delay-400">
                 <h3 class="text-3xl font-bold mb-10 text-center flex items-center justify-center gap-3">
@@ -1334,21 +1648,21 @@
                             <i class="fas fa-network-wired"></i>
                         </div>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Cisco Networking Academy</p>
-                        <p class="font-bold text-lg">Notions de base sur les réseaux</p>
+                        <p class="font-bold text-lg">Réseaux</p>
                     </div>
                     <div class="glass-strong p-6 rounded-2xl text-center card-hover">
                         <div class="w-16 h-16 bg-secondary-light dark:bg-secondary-dark rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
                             <i class="fas fa-shield-alt"></i>
                         </div>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Cisco Networking Academy</p>
-                        <p class="font-bold text-lg">Sécurité des réseaux et protocoles</p>
+                        <p class="font-bold text-lg">Sécurité des réseaux &amp; protocoles</p>
                     </div>
                     <div class="glass-strong p-6 rounded-2xl text-center card-hover">
                         <div class="w-16 h-16 bg-primary-light dark:bg-primary-dark rounded-full flex items-center justify-center text-white text-2xl mx-auto mb-4">
                             <i class="fas fa-tools"></i>
                         </div>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-2">Cisco Networking Academy</p>
-                        <p class="font-bold text-lg">Support et sécurité des réseaux</p>
+                        <p class="font-bold text-lg">Support &amp; sécurité des réseaux</p>
                     </div>
                 </div>
             </div>
@@ -1356,7 +1670,7 @@
             <div class="mb-16 fade-in delay-500">
                 <h3 class="text-3xl font-bold mb-10 text-center flex items-center justify-center gap-3">
                     <i class="fas fa-tools text-primary-light dark:text-primary-dark"></i>
-                    Outils & Environnements
+                    Outils
                 </h3>
                 <div class="flex flex-wrap justify-center gap-4 max-w-4xl mx-auto">
                     <span class="badge-soft glass text-base py-3 px-6">
@@ -1369,87 +1683,41 @@
                         <i class="fas fa-radar text-green-600"></i> Nmap
                     </span>
                     <span class="badge-soft glass text-base py-3 px-6">
+                        <i class="fas fa-bug text-orange-500"></i> Burp Suite
+                    </span>
+                    <span class="badge-soft glass text-base py-3 px-6">
+                        <i class="fas fa-shield-alt text-emerald-500"></i> Wazuh
+                    </span>
+                    <span class="badge-soft glass text-base py-3 px-6">
+                        <i class="fab fa-docker text-sky-500"></i> Docker
+                    </span>
+                    <span class="badge-soft glass text-base py-3 px-6">
                         <i class="fab fa-git-alt text-orange-600"></i> Git
-                    </span>
-                    <span class="badge-soft glass text-base py-3 px-6">
-                        <i class="fas fa-rocket text-red-600"></i> Postman
-                    </span>
-                    <span class="badge-soft glass text-base py-3 px-6">
-                        <i class="fas fa-terminal text-purple-600"></i> CLI
                     </span>
                 </div>
             </div>
 
             <div class="fade-in delay-600">
                 <h3 class="text-3xl font-bold mb-10 text-center flex items-center justify-center gap-3">
-                    <i class="fas fa-layer-group text-secondary-light dark:text-secondary-dark"></i>
-                    Stack Technologique
+                    <i class="fas fa-language text-primary-light dark:text-primary-dark"></i>
+                    Langues
                 </h3>
-                
-                <div class="grid grid-cols-3 md:grid-cols-5 lg:grid-cols-8 gap-6 max-w-6xl mx-auto">
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-react text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #61DAFB;"></i>
-                        <span class="text-xs font-medium">React</span>
+                <div class="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-5xl mx-auto mb-10">
+                    <div class="glass-strong p-6 rounded-2xl text-center card-hover">
+                        <p class="text-lg font-bold mb-1">Français</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Courant</p>
                     </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-js text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #F7DF1E;"></i>
-                        <span class="text-xs font-medium">JavaScript</span>
+                    <div class="glass-strong p-6 rounded-2xl text-center card-hover">
+                        <p class="text-lg font-bold mb-1">Anglais</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Bon niveau</p>
                     </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-node-js text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #339933;"></i>
-                        <span class="text-xs font-medium">Node.js</span>
+                    <div class="glass-strong p-6 rounded-2xl text-center card-hover">
+                        <p class="text-lg font-bold mb-1">Darija</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">Notions</p>
                     </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-html5 text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #E34F26;"></i>
-                        <span class="text-xs font-medium">HTML5</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-css3-alt text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #1572B6;"></i>
-                        <span class="text-xs font-medium">CSS3</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-git-alt text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #F05032;"></i>
-                        <span class="text-xs font-medium">Git</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-docker text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #2496ED;"></i>
-                        <span class="text-xs font-medium">Docker</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-python text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #3776AB;"></i>
-                        <span class="text-xs font-medium">Python</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-laravel text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #FF2D20;"></i>
-                        <span class="text-xs font-medium">Laravel</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-php text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #777BB4;"></i>
-                        <span class="text-xs font-medium">PHP</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-wordpress text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #21759B;"></i>
-                        <span class="text-xs font-medium">WordPress</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-bootstrap text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #563D7C;"></i>
-                        <span class="text-xs font-medium">Bootstrap</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-java text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #007396;"></i>
-                        <span class="text-xs font-medium">Java</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fab fa-js text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #239120;"></i>
-                        <span class="text-xs font-medium">C#</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fas fa-database text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #4479A1;"></i>
-                        <span class="text-xs font-medium">MySQL</span>
-                    </div>
-                    <div class="tech-icon glass-strong p-5 rounded-2xl flex flex-col items-center justify-center text-center card-hover group">
-                        <i class="fas fa-leaf text-5xl mb-2 transition-transform group-hover:scale-110" style="color: #47A248;"></i>
-                        <span class="text-xs font-medium">MongoDB</span>
+                    <div class="glass-strong p-6 rounded-2xl text-center card-hover">
+                        <p class="text-lg font-bold mb-1">Mandarin</p>
+                        <p class="text-sm text-gray-600 dark:text-gray-300">En apprentissage</p>
                     </div>
                 </div>
             </div>
@@ -1551,7 +1819,7 @@
                         LANDRY BAMBARA
                     </h2>
                     <p class="text-gray-400 mb-6 leading-relaxed">
-                        Développeur Full-Stack passionné et spécialiste en cybersécurité, créant des solutions web performantes et sécurisées.
+                        Étudiant-ingénieur en cybersécurité (5e année) à HESTIM. Sécurité offensive et défensive, également développeur full-stack. En recherche d'un stage PFE 2026.
                     </p>
                     <div class="flex gap-4">
                         <a href="https://www.linkedin.com/in/landry-bambara" target="_blank" rel="noopener noreferrer" class="w-10 h-10 bg-gray-800 hover:bg-gradient-to-br hover:from-blue-600 hover:to-blue-800 rounded-lg flex items-center justify-center transition-all transform hover:scale-110" aria-label="LinkedIn">
@@ -1583,8 +1851,23 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#projects" class="text-gray-400 hover:text-primary-light transition-colors flex items-center gap-2">
-                                <i class="fas fa-chevron-right text-xs"></i> Projets
+                            <a href="#cyber" class="text-gray-400 hover:text-primary-light transition-colors flex items-center gap-2">
+                                <i class="fas fa-chevron-right text-xs"></i> Cybersécurité
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#cyber-projects" class="text-gray-400 hover:text-primary-light transition-colors flex items-center gap-2">
+                                <i class="fas fa-chevron-right text-xs"></i> Projets cyber
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#development" class="text-gray-400 hover:text-primary-light transition-colors flex items-center gap-2">
+                                <i class="fas fa-chevron-right text-xs"></i> Développement
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#entrepreneuriat" class="text-gray-400 hover:text-primary-light transition-colors flex items-center gap-2">
+                                <i class="fas fa-chevron-right text-xs"></i> Entrepreneuriat
                             </a>
                         </li>
                         <li>
@@ -1782,7 +2065,7 @@
                 this.classList.add('bg-primary-light', 'dark:bg-primary-dark', 'text-white');
                 
                 const filter = this.getAttribute('data-filter');
-                const projectCards = document.querySelectorAll('.project-card');
+                const projectCards = document.querySelectorAll('#development .project-card');
                 
                 projectCards.forEach(card => {
                     if (filter === 'all' || card.getAttribute('data-category') === filter) {
@@ -1882,11 +2165,73 @@
                 images: ["bsinternational.png", "bsinternational1.png", "bsinternational2.png", "bsinternational3.png"],
                 features: [
                     "Présentation claire des services de l'entreprise",
-                    "BS INTERNATIONAL SHOLAR pour les étudiants",
+                    "BS Scholar pour les étudiants",
                     "BS INTERNATIONAL BUSINESS pour les entrepreneurs",
                     "BS INTERNATIONAL EXPRESS pour l'importation et l'exportation"
                 ],
                 demoUrl: "https://bsinternationales.com/",
+            },
+            c1: {
+                title: "BS Security (CSPM)",
+                period: "Stage · mai – juillet 2026",
+                description: "Plateforme SaaS de gestion continue de la posture de sécurité pour PME, déployée en production.",
+                role: "Stage",
+                objective: "Concevoir une plateforme SaaS multi-tenant de gestion continue de la posture de sécurité.",
+                technologies: ["Django", "Next.js", "CSPM", "SaaS"],
+                images: [],
+                features: [
+                    "Backend Django multi-tenant : API REST, JWT et isolation par locataire",
+                    "Pipeline Celery/Redis et 4 moteurs d'analyse",
+                    "Agent léger Windows",
+                    "Frontend Next.js",
+                    "Déploiement en production sur Railway (5 services)"
+                ],
+            },
+            c2: {
+                title: "Secure OTA Update Pipeline",
+                period: "Capstone S9 · 2026",
+                description: "Chaîne de mise à jour logicielle signée pour robots, avec proxy MITM, scénarios d'attaque et démonstration de bout en bout.",
+                role: "Responsable serveur et cryptographie",
+                objective: "Sécuriser la chaîne de mise à jour logicielle signée et en démontrer les scénarios d'attaque.",
+                technologies: ["Cryptographie", "OTA", "Sécurité systèmes"],
+                images: [],
+                features: [
+                    "Chaîne de mise à jour logicielle signée pour robots",
+                    "Proxy MITM",
+                    "Scénarios d'attaque",
+                    "Démonstration de bout en bout"
+                ],
+            },
+            c3: {
+                title: "Threat Hunting à l'échelle africaine",
+                period: "Projet PIC S9 · 2026–2027",
+                description: "Pipeline CTI et threat hunting réutilisable, des outils libres et une IA locale.",
+                role: "Chef de projet (équipe de 4)",
+                objective: "Construire un pipeline CTI / threat hunting réutilisable, du profil d'entreprise jusqu'à la réponse.",
+                technologies: ["CTI", "Wazuh", "MISP"],
+                images: [],
+                features: [
+                    "Profil entreprise, collecte, MISP, scoring et hypothèses",
+                    "Chasse sur Wazuh puis réponse",
+                    "Outils libres et IA locale"
+                ],
+            },
+            c4: {
+                title: "Labs & pentest",
+                period: "Pratique offensive, défensive et forensic",
+                description: "Labs de pentest, blue team, forensic et cloud.",
+                role: "Labs",
+                objective: "Pentest, forensic, sécurité mobile, cloud AWS et SIEM/SOC sur des labs.",
+                technologies: ["Pentest", "Blue Team", "Labs"],
+                images: [],
+                features: [
+                    "Juice Shop et DVWA",
+                    "CTF DarkHole:2 jusqu'au root",
+                    "MobSF",
+                    "Forensic Windows",
+                    "Labs AWS",
+                    "SIEM/SOC avec Wazuh et MISP"
+                ],
             }
         };
 
@@ -1903,11 +2248,46 @@
                 return;
             }
             
-            currentProjectImages = project.images;
+            currentProjectImages = project.images || [];
             currentCarouselIndex = 0;
+
+            const galleryHtml = currentProjectImages.length ? `
+                <div class="mb-6">
+                    <h4 class="text-xl font-semibold mb-3 flex items-center gap-2">
+                        <i class="fas fa-images text-primary-light dark:text-primary-dark"></i>
+                        Galerie du projet (${currentProjectImages.length} image${currentProjectImages.length > 1 ? 's' : ''})
+                    </h4>
+                    <div class="project-gallery">
+                        <div class="carousel-container">
+                            <img id="carouselMainImage" src="${currentProjectImages[0]}" alt="${project.title}" class="carousel-main-image" onclick="openImageZoom('${currentProjectImages[0]}')">
+                            ${currentProjectImages.length > 1 ? `
+                                <button class="carousel-nav carousel-prev" onclick="changeCarouselImage(-1)">
+                                    <i class="fas fa-chevron-left"></i>
+                                </button>
+                                <button class="carousel-nav carousel-next" onclick="changeCarouselImage(1)">
+                                    <i class="fas fa-chevron-right"></i>
+                                </button>
+                            ` : ''}
+                            <div class="carousel-counter">
+                                <span id="carouselCounter">1 / ${currentProjectImages.length}</span>
+                            </div>
+                        </div>
+                        ${currentProjectImages.length > 1 ? `
+                            <div class="carousel-thumbnails">
+                                ${currentProjectImages.map((img, index) => `
+                                    <img src="${img}" alt="Thumbnail ${index + 1}"
+                                         class="carousel-thumbnail ${index === 0 ? 'active' : ''}"
+                                         onclick="goToCarouselImage(${index})">
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                </div>
+            ` : '';
 
             projectDetails.innerHTML = `
                 <h3 class="text-3xl font-bold mb-4">${project.title}</h3>
+                ${project.period ? `<p class="text-sm uppercase tracking-widest text-gray-500 dark:text-gray-400 mb-4">${project.period}</p>` : ''}
                 <p class="text-gray-600 dark:text-gray-300 mb-6">${project.description}</p>
 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
@@ -1939,37 +2319,7 @@
                     </div>
                 </div>
                 
-                <div class="mb-6">
-                    <h4 class="text-xl font-semibold mb-3 flex items-center gap-2">
-                        <i class="fas fa-images text-primary-light dark:text-primary-dark"></i>
-                        Galerie du projet (${project.images.length} image${project.images.length > 1 ? 's' : ''})
-                    </h4>
-                    <div class="project-gallery">
-                        <div class="carousel-container">
-                            <img id="carouselMainImage" src="${project.images[0]}" alt="${project.title}" class="carousel-main-image" onclick="openImageZoom('${project.images[0]}')">
-                            ${project.images.length > 1 ? `
-                                <button class="carousel-nav carousel-prev" onclick="changeCarouselImage(-1)">
-                                    <i class="fas fa-chevron-left"></i>
-                                </button>
-                                <button class="carousel-nav carousel-next" onclick="changeCarouselImage(1)">
-                                    <i class="fas fa-chevron-right"></i>
-                                </button>
-                            ` : ''}
-                            <div class="carousel-counter">
-                                <span id="carouselCounter">1 / ${project.images.length}</span>
-                            </div>
-                        </div>
-                        ${project.images.length > 1 ? `
-                            <div class="carousel-thumbnails">
-                                ${project.images.map((img, index) => `
-                                    <img src="${img}" alt="Thumbnail ${index + 1}" 
-                                         class="carousel-thumbnail ${index === 0 ? 'active' : ''}" 
-                                         onclick="goToCarouselImage(${index})">
-                                `).join('')}
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>
+                ${galleryHtml}
                 
                 <div class="flex flex-wrap gap-4 mt-8">
                     ${project.demoUrl && project.demoUrl !== "#" ? `
